@@ -1,5 +1,7 @@
 this.demon_scream <- this.inherit("scripts/skills/skill", {
-	m = {},
+	m = {
+		morale_checks_malus = 0
+	},
 	function create()
 	{
 		this.m.ID = "actives.demon_scream";
@@ -55,11 +57,30 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "All the enemy around you could become horrified and unable to act until next turn. They have [color=" + this.Const.UI.Color.NegativeValue + "]-50[/color] malus to resolve the morale checks. can be use only one time per fight."
+				text = "All the enemy around you could become horrified and unable to act until next turn. They have [color=" + this.Const.UI.Color.NegativeValue + "]-" +this.m.morale_checks_malus+ "[/color] malus to resolve the morale checks. can be use only one time per fight."
 			}
 		];
 		return ret;
-	}	
+	}
+	
+	function onCombatStarted()
+	{
+			local actor = this.getContainer().getActor();
+	
+			//max values
+			this.m.morale_checks_malus = 50;
+
+			local multiplier = 1.0; 
+			if(actor.m.Level<12){
+				multiplier = (actor.m.Level/11.0);			
+			}
+			
+			this.logDebug("demon_scream: multiplier value "+multiplier);
+			
+			this.m.morale_checks_malus = this.Math.abs(this.m.morale_checks_malus*multiplier);		
+
+			
+	}		
 
 	
 	//usable if at least one enemy around you
@@ -143,9 +164,9 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		{
 			local effect = this.Tactical.spawnSpriteEffect("effect_skull_03", this.createColor("#ffffff"), target.getTile(), 0, 40, 1.0, 0.25, 0, 400, 300);
 
-			target.checkMorale(-2, -50, this.Const.MoraleCheckType.MentalAttack)
+			target.checkMorale(-2, -this.m.morale_checks_malus, this.Const.MoraleCheckType.MentalAttack)
 
-			if (!target.checkMorale(-1, -50, this.Const.MoraleCheckType.MentalAttack))
+			if (!target.checkMorale(-1, -this.m.morale_checks_malus, this.Const.MoraleCheckType.MentalAttack))
 			{
 				target.getSkills().add(this.new("scripts/skills/effects/horrified_effect"));
 
