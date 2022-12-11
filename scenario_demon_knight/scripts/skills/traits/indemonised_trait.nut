@@ -126,32 +126,26 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			{
 				id = 21,
 				type = "text",
-				icon = "ui/icons/special.png",
-				text = "Upon killing an enemy on his turn, this character immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]1[/color] Action Point"
-			},
-			{
-				id = 22,
-				type = "text",
 				icon = "ui/icons/morale.png",
 				text = "No morale check triggered upon losing hitpoints"
 			},
 			{
-				id = 23,
+				id = 22,
 				type = "text",
 				icon = "ui/icons/special.png",
 				text = "Is not affected by fresh injuries sustained during the current battle"
 			},
 			{
+				id = 23,
+				type = "text",
+				icon = "ui/icons/special.png",
+				text = "Can use demoniac skills in battle, these abilities become more powerful with increasing level"
+			},
+			{
 				id = 24,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Can use demoniac skills in battle"
-			},
-			{
-				id = 25,
-				type = "text",
-				icon = "ui/icons/special.png",
-				text = "Don't eat more food"
+				text = "Don't eat more food, and is not more interessed to money"
 			}
 			
 		];
@@ -164,12 +158,13 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 	
 		_properties.Initiative += 20;
 		_properties.Bravery += 30;		
-		_properties.MeleeDamageMult *= 1.25;		
 		_properties.MeleeSkill += 20;		
 		_properties.MeleeDefense += 10;
 		_properties.RangedDefense += 10;	
 		_properties.Stamina += 50;		
-		_properties.Hitpoints += 50;		
+		_properties.Hitpoints += 50;	
+
+		_properties.MeleeDamageMult *= 1.25;		
 
 		_properties.MovementFatigueCostAdditional -= 2;		
 
@@ -206,29 +201,6 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			actor.setMoraleState(this.Const.MoraleState.Confident);
 		}
 		
-	}	
-	
-	
-	function onTargetKilled( _targetEntity, _skill )
-	{
-		local actor = this.getContainer().getActor();
-
-		if (actor.isAlliedWith(_targetEntity))
-		{
-			return;
-		}
-
-		if (actor.getActionPoints() == actor.getActionPointsMax())
-		{
-			return;
-		}
-
-		if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().getID() == actor.getID())
-		{
-			actor.setActionPoints(this.Math.min(actor.getActionPointsMax(), actor.getActionPoints() + 1));
-			actor.setDirty(true);
-			this.spawnIcon("trait_icon_71", this.m.Container.getActor().getTile());
-		}
 	}	
 	
 

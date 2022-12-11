@@ -139,8 +139,6 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 			b.RangedDefense = a.RangedDefense[1];
 			b.Initiative = a.Initiative[1];			
 			
-			//the bro is alwasy alone for all the scenario, give him 10 AP
-			//b.ActionPoints = 10;	
 	
 	}
 	

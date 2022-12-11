@@ -34,7 +34,7 @@ this.demon_strength_effect <- this.inherit("scripts/skills/skill", {
 			if(this.m.first_activation){
 				this.m.first_activation = false;
 				local actor = this.getContainer().getActor();
-				actor.setActionPoints(this.Math.min(actor.getActionPointsMax(), actor.getActionPoints() + this.m.action_points_per_turn));			
+				actor.setActionPoints(actor.getActionPoints() + this.m.action_points_per_turn);			
 			}
 
 	}

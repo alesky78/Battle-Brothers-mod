@@ -1,5 +1,10 @@
 this.demon_strength <- this.inherit("scripts/skills/skill", {
-	m = {},
+	m = {		
+		action_points_per_turn = 0,
+		action_points_per_kill = 0,
+		fatigue_recovery_per_turn = 0
+	},
+	
 	function create()
 	{
 		this.m.ID = "actives.demon_strength";
@@ -56,10 +61,32 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Become bleeding but obtain the power of the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+3[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+5[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]2[/color] Action Point"
+				text = "Become bleeding but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point"
 			}
 		];
 		return ret;
+	}	
+	
+	function onCombatStarted()
+	{
+			local actor = this.getContainer().getActor();
+	
+			//max values
+			this.m.action_points_per_turn = 3;
+			this.m.action_points_per_kill = 2;
+			this.m.fatigue_recovery_per_turn = 6;
+			
+			local multiplier = 1.0; 
+			if(actor.m.Level<12){
+				multiplier = (actor.m.Level/11.0);			
+			}
+			
+			this.logDebug("demon_strength: multiplier value "+multiplier);
+			
+			this.m.action_points_per_turn = this.Math.abs(this.Math.max(1,this.m.action_points_per_turn*multiplier));
+			this.m.action_points_per_kill = this.Math.abs(this.Math.max(1,this.m.action_points_per_kill*multiplier));
+			this.m.fatigue_recovery_per_turn = this.Math.abs(this.Math.max(1,this.m.fatigue_recovery_per_turn*multiplier));
+			
 	}	
 
 	function isUsable()
@@ -72,9 +99,9 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 	{
 	
 		local effect = this.new("scripts/skills/effects/demon_strength_effect");
-		effect.m.action_points_per_turn = 3;
-		effect.m.action_points_per_kill = 2;
-		effect.m.fatigue_recovery_per_turn = 5;
+		effect.m.action_points_per_turn = this.m.action_points_per_turn;
+		effect.m.action_points_per_kill = this.m.action_points_per_kill;
+		effect.m.fatigue_recovery_per_turn = this.m.fatigue_recovery_per_turn;
 		this.m.Container.add(effect);
 		
 		this.m.Container.add(this.new("scripts/skills/effects/bleeding_effect"));		
