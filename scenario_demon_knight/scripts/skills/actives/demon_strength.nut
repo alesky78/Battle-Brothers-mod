@@ -9,6 +9,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.Icon = "skills/demon_strength.png";
 		this.m.IconDisabled = "skills/demon_strength_sw.png";
 		//this.m.Overlay = "active_41";
+		this.m.SoundVolume = 1.1,
 		this.m.SoundOnUse = [
 			"sounds/combat/demon_strength.wav"
 		];
@@ -55,7 +56,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Become bleeding but obtain the power of the demon, valid this you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+3[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+5[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]2[/color] Action Point"
+				text = "Become bleeding but obtain the power of the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+3[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+5[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]2[/color] Action Point"
 			}
 		];
 		return ret;
@@ -69,11 +70,15 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 
 	function onUse( _user, _targetTile )
 	{
-
-		this.m.Container.add(this.new("scripts/skills/effects/demon_strength_effect"));
+	
+		local effect = this.new("scripts/skills/effects/demon_strength_effect");
+		effect.m.action_points_per_turn = 3;
+		effect.m.action_points_per_kill = 2;
+		effect.m.fatigue_recovery_per_turn = 5;
+		this.m.Container.add(effect);
+		
 		this.m.Container.add(this.new("scripts/skills/effects/bleeding_effect"));		
-
-
+		
 		return true;
 	}
 
