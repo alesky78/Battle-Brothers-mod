@@ -61,7 +61,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Become bleeding but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point"
+				text = "Become bleeding but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn, killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point, [color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
 			}
 		];
 		return ret;

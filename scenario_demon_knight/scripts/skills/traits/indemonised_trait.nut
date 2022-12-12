@@ -1,5 +1,16 @@
 this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", {
-	m = {},
+	m = {
+		last_time_kill = 0.0,
+		days_Passed_no_kill = 0,
+		attribute_Initiative = 0,
+		attribute_Bravery  = 0,
+		attribute_MeleeSkill = 0,
+		attribute_MeleeDefense = 0,
+		attribute_RangedDefense = 0,
+		attribute_Stamina = 0,
+		attribute_Hitpoints = 0
+		
+	},
 	function create()
 	{
 		this.character_trait.create();
@@ -61,49 +72,43 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 				id = 10,
 				type = "text",
 				icon = "ui/icons/initiative.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+20[/color] Initiative"
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_Initiative+"[/color] Initiative"
 			},
 			{
 				id = 11,
 				type = "text",
 				icon = "ui/icons/bravery.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+30[/color] Resolve"
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_Bravery +"[/color] Resolve"
 			},
 			{
 				id = 12,
 				type = "text",
-				icon = "ui/icons/regular_damage.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
+				icon = "ui/icons/melee_skill.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_MeleeSkill	+"[/color] Melee Skill"
 			},
 			{
 				id = 13,
 				type = "text",
-				icon = "ui/icons/melee_skill.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+20[/color] Melee Skill"
+				icon = "ui/icons/melee_defense.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_MeleeDefense+"[/color] Melee Defense"
 			},
 			{
 				id = 14,
 				type = "text",
-				icon = "ui/icons/melee_defense.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+10[/color] Melee Defense"
+				icon = "ui/icons/ranged_defense.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_RangedDefense+"[/color] Ranged Defense"
 			},
 			{
 				id = 15,
 				type = "text",
-				icon = "ui/icons/ranged_defense.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+10[/color] Ranged Defense"
+				icon = "ui/icons/fatigue.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_Stamina+"[/color] Max Fatigue"
 			},
 			{
 				id = 16,
 				type = "text",
-				icon = "ui/icons/fatigue.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+50[/color] Max Fatigue"
-			},
-			{
-				id = 17,
-				type = "text",
 				icon = "ui/icons/health.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+50[/color] Hitpoints"
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+"+this.m.attribute_Hitpoints+"[/color] Hitpoints"
 			},
 			{
 				id = 18,
@@ -114,38 +119,26 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			{
 				id = 19,
 				type = "text",
-				icon = "ui/icons/vision.png",
-				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+1[/color] Vision"
+				icon = "ui/icons/morale.png",
+				text = "No morale check triggered losing hitpoints and not affected by fresh injuries sustained during the current battle"
 			},
 			{
 				id = 20,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "All kills are fatalities (if the weapon allows)."
+				text = "Can use demoniac skills in battle, these abilities become more powerful increasing level"
 			},
 			{
 				id = 21,
 				type = "text",
-				icon = "ui/icons/morale.png",
-				text = "No morale check triggered upon losing hitpoints"
+				icon = "ui/icons/special.png",
+				text = "Don't eat more food, but the demon need to kill to survive or the attributes decreases. [color=" + this.Const.UI.Color.NegativeValue + "]" +this.m.days_Passed_no_kill+ "[/color] days wihtout a kill"
 			},
-			{
+{
 				id = 22,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Is not affected by fresh injuries sustained during the current battle"
-			},
-			{
-				id = 23,
-				type = "text",
-				icon = "ui/icons/special.png",
-				text = "Can use demoniac skills in battle, these abilities become more powerful with increasing level"
-			},
-			{
-				id = 24,
-				type = "text",
-				icon = "ui/icons/special.png",
-				text = "Don't eat more food, and is not more interessed to money"
+				text = "Attributes become more powerful increasing level"
 			}
 			
 		];
@@ -156,19 +149,32 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 	
 		//da analizzare effect/berserker_rage_effect e prorpio fico e fa vedere come aumentare i poteri con il passare dei turni
 	
-		_properties.Initiative += 20;
-		_properties.Bravery += 30;		
-		_properties.MeleeSkill += 20;		
-		_properties.MeleeDefense += 10;
-		_properties.RangedDefense += 10;	
-		_properties.Stamina += 50;		
-		_properties.Hitpoints += 50;	
-
-		_properties.MeleeDamageMult *= 1.25;		
+		//day passed since last kill
+		this.m.days_Passed_no_kill = this.Math.ceil((this.getGameSessionTime() - this.m.last_time_kill) / this.World.getTime().SecondsPerDay);
+			
+		local multiplier = 1.0; 
+		local actor = this.getContainer().getActor();
+		if(actor.m.Level<12){
+			multiplier = (actor.m.Level/11.0);			
+		}			
+						
+		this.m.attribute_Initiative		=  this.Math.abs(this.Math.max(0, (30*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Bravery 		=  this.Math.abs(this.Math.max(0, (30*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_MeleeSkill		=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_MeleeDefense	=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_RangedDefense	=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Stamina		=  this.Math.abs(this.Math.max(0, (50*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Hitpoints		=  this.Math.abs(this.Math.max(0, (50*multiplier)) - this.m.days_Passed_no_kill);
+						
+		_properties.Initiative += this.m.attribute_Initiative;
+		_properties.Bravery += this.m.attribute_Bravery;
+		_properties.MeleeSkill += this.m.attribute_MeleeSkill;
+		_properties.MeleeDefense += this.m.attribute_MeleeDefense;		
+		_properties.RangedDefense += this.m.attribute_RangedDefense;
+		_properties.Stamina += this.m.attribute_Stamina;
+		_properties.Hitpoints += this.m.attribute_Hitpoints;
 
 		_properties.MovementFatigueCostAdditional -= 2;		
-
-		_properties.Vision += 1;
 		
 		_properties.RerollMoraleChance = 100;
 		_properties.RerollDefenseChance += 10;		
@@ -179,18 +185,25 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		
 		_properties.DailyWageMult *= 0.0;
 		_properties.DailyFood = 0;
-		_properties.XPGainMult *= 1.25;		
 		
+	}
 		
+	function onTargetKilled( _targetEntity, _skill )
+	{
+		this.m.last_time_kill = this.getGameSessionTime();
 	}
 	
-	function onAnySkillUsed( _skill, _targetEntity, _properties )
+	function getGameSessionTime()
 	{
-		if (_skill.isAttack() && !_skill.isRanged())
+		if (("State" in this.World) && this.World.State != null && this.World.State.getCombatStartTime() != 0)
 		{
-			_properties.DamageAgainstMult[this.Const.BodyPart.Head] += 0.15;
+			return this.World.State.getCombatStartTime();
 		}
-	}
+		else
+		{
+			return this.Time.getVirtualTimeF();
+		}
+	}	
 	
 	function onCombatStarted()
 	{

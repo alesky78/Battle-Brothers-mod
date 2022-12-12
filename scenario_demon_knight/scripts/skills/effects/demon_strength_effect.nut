@@ -20,7 +20,7 @@ this.demon_strength_effect <- this.inherit("scripts/skills/skill", {
 
 	function getDescription()
 	{
-		return "adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point";
+		return "adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn,  killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point, [color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage";
 	}
 	
 	
@@ -28,7 +28,9 @@ this.demon_strength_effect <- this.inherit("scripts/skills/skill", {
 	{
 			_properties.InitiativeForTurnOrderAdditional += 2000;
 			_properties.ActionPoints = _properties.ActionPoints + this.m.action_points_per_turn;
-			_properties.FatigueRecoveryRate += this.m.fatigue_recovery_per_turn;			
+			_properties.FatigueRecoveryRate += this.m.fatigue_recovery_per_turn;	
+
+			_properties.DamageTotalMult *= 1.25;
 			
 			//give 3 action point first time it is used
 			if(this.m.first_activation){
@@ -68,8 +70,7 @@ this.demon_strength_effect <- this.inherit("scripts/skills/skill", {
 			actor.setDirty(true);
 			this.spawnIcon("trait_icon_71", this.m.Container.getActor().getTile());
 		}
-	}	
-
+	}		
 
 });
 

@@ -41,9 +41,9 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		bro.m.HireTime = this.Time.getVirtualTimeF();
 
 		//experience and start perks
-		bro.m.PerkPoints = 4;
-		bro.m.LevelUps = 4;
-		bro.m.Level = 5;
+		bro.m.PerkPoints = 3;
+		bro.m.LevelUps = 3;
+		bro.m.Level = 4;
 
 		//Talents and attributes
 		bro.m.Talents = [];
@@ -62,12 +62,11 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		local skills = bro.m.Skills;
 		skills.add(this.new("scripts/skills/perks/perk_mastery_sword"));
 		skills.add(this.new("scripts/skills/perks/perk_mastery_hammer"));		
-		skills.add(this.new("scripts/skills/perks/perk_lone_wolf"));
+		skills.add(this.new("scripts/skills/perks/perk_fearsome"));
 		
-		//activate demoniac skills 
+		//add demoniac skills 
 		skills.add(this.new("scripts/skills/actives/demon_scream"));
 		skills.add(this.new("scripts/skills/actives/demon_strength"));		
-		
 		
 		skills.update();				
 
@@ -79,17 +78,15 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		items.unequip(items.getItemAtSlot(this.Const.ItemSlot.Offhand));
 		
 		//weapon and armour 
-		items.equip(this.new("scripts/items/armor/adorned_heavy_mail_hauberk"));
-		items.equip(this.new("scripts/items/helmets/adorned_closed_flat_top_with_mail"));
+		items.equip(this.new("scripts/items/armor/sellsword_armor"));
+		items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));
 		items.equip(this.new("scripts/items/weapons/longsword"));
 		
 		//reputation
-		this.World.Assets.m.BusinessReputation = 400;
+		this.World.Assets.m.BusinessReputation = 200;
 		
 		//stash start assets
 		this.World.Assets.getStash().resize(this.World.Assets.getStash().getCapacity() - 9);
-		this.World.Assets.getStash().add(this.new("scripts/items/supplies/smoked_ham_item"));
-		this.World.Assets.getStash().add(this.new("scripts/items/supplies/wine_item"));		
 		
 		this.World.Assets.m.Money = this.World.Assets.m.Money / 2 - (this.World.Assets.getEconomicDifficulty() == 0 ? 0 : 100);
 		this.World.Assets.m.ArmorParts = this.World.Assets.m.ArmorParts / 2;
@@ -102,6 +99,7 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 			//set default logic and don't add any new trait
 			bro.setStartValuesEx([background_name],false);
 	
+/*
 			//standard values map defined in the scripts\skills\backgrounds\character_background.nut
 			local a = {
 				Hitpoints = [50,60],
@@ -137,9 +135,9 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 			b.RangedSkill = a.RangedSkill[1];
 			b.MeleeDefense = a.MeleeDefense[1];
 			b.RangedDefense = a.RangedDefense[1];
-			b.Initiative = a.Initiative[1];			
+			b.Initiative = a.Initiative[1];
+*/			
 			
-	
 	}
 	
 	
