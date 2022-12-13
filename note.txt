@@ -1,0 +1,144 @@
+#######################
+How to create a Faction
+and enable in the game
+#######################
+
+
+#############
+main scripts:
+#############
+World.State 
+	script --> scripts/states/world_state
+	accessible by --> this.World.State
+	defined in --> scripts/states/world_state function onInit()
+	
+FactionManager
+	script --> scripts/factions/faction_manager
+	accessible by  --> this.World.FactionManager
+	defined in --> scripts/states/world_state function onInit()	
+	
+Config
+	Factions 
+		script --> scripts/config/factions
+		define:
+			gt.Const.FactionType --> table that contain name/id of a faction
+			gt.Const.FactionBase --> array that contain the brust of the factions
+			gt.Const.Faction -->  table that contain name/id of a faction
+			
+	FactionTrait			
+		script --> scripts/config/faction_traits
+		define:
+			gt.Const.FactionTrait --> table contain 
+									  for each factio a unique integer id 
+									  an extra key called Action that is an array of array: 
+											each element of this array is again an array that contains a slist of script names, are the script of the actions associated
+											remember that the code use unique integer id of the faction to determine what is the i-element in the Action associated to the faction  
+
+#############
+the process:
+#############
+- 1) world_state.startNewCampaign() - Creation of all the game session obejct like the faction
+
+the factions are created during the creation of the campaign by the script World.State using the function function startNewCampaign().
+
+During this function the FactionManager is called requesting to create the new factions: 
+- this.World.FactionManager.createFactions();
+after the creation of the factions it call 
+- this.World.FactionManager.uncoverSettlements(this.m.CampaignSettings.ExplorationMode);	--> just determine if the settlement created are dscovered or not by the player based on the starting spawn position
+- this.World.FactionManager.runSimulation(); --> run simulation internally for each single faction call function.update(true, true); in an iteration of 2000 times
+
+
+- 2) FactionManager.createFactions()
+
+	prepare configuration for the new faction
+	Factions  		--> see 4.1
+	FactionTrait 	--> see 4.2
+
+	this functions in order
+	- create one by one all the factions --> see 4.3
+	- create the settlement
+	- create the noble house and add the settlement to the noble house	
+	- add the trait to the faction 	   --> see 4.4
+	- add the faction to the array of the FactionManager this.m.Factions.push(f); 
+	- create all the relationsheep between the faction createAlliances();
+	- for each faction created call the method onUpdateRoster(); --> create the character that are show in the roster that you can see in the UI page of the factions, 
+																	 this is used only by noble house and settlement becouse this are the factions that you see in the page Factions
+	
+
+#################
+Details
+#################
+
+
+- 4.1) preconfigurare Factions scripts/config/factions
+		
+		gt.Const.FactionType --> this conatin all the possible this.m.Type of a single faction	
+								in this table the there is a key COUNT then remember to add a new faction, solution:
+								gt.Const.FactionType.MY_FACTION <- gt.Const.FactionType.len() - 2;
+								gt.Const.FactionType.COUNT = gt.Const.FactionType.len(); -> for me better gt.Const.FactionType.COUNT = gt.Const.FactionType.COUNT + 1;								 
+		
+		gt.Const.FactionBase --> this contains all the possible this.m.TacticalBase of a single faction
+								 defined has a string, but the Config Factions keep the array. For the noble house is bust_base_military, solution:
+								 gt.Const.FactionBase.push("my_new_bush")								
+								 
+		gt.Const.Faction --> 	gt.Const.Faction.MY_FACTION <- gt.Const.FactionType.len() - 2;
+								gt.Const.Faction.COUNT = gt.Const.Faction.len(); -> for me better gt.Const.Faction.COUNT = gt.Const.FactionType.COUNT + 1;	
+								 
+- 4.2) preconfigurare FactionTrait scripts/config/faction_traits
+	
+		here i have first to implement all the actions and then populate the keys and the actins, example:
+		gt.Const.FactionTrait.MyTrait <- gt.Const.FactionTrait.len() - 1;
+		gt.Const.FactionTrait.Actions.push([
+			"scripts/factions/actions/build_xxx_camp_action",
+			"scripts/factions/actions/send_xxx_ambushers_action",
+			"scripts/factions/actions/send_xxx_roamers_action",
+			"scripts/factions/actions/defend_xxx_action"
+		]);
+								 
+	STUDIARE COME CREARE UNA ACTION
+
+- 4.3) create a single factions
+	all the faction inherit from the script scripts/factions/faction
+	redefine the method create() to overwrite alle the variables customizing it
+	
+	//the most important parametere are this 2
+	this.m.Type =  this.Const.FactionType.NobleHouse; 		--> add the constant defined in gt.Const.FactionType
+	this.m.TacticalBase = "bust_base_military";				--> add the value configured in gt.Const.FactionBase, noble house are "bust_base_military"
+	
+	this.m.Base = "world_base_09";							--> the sprite to use for the base	world_base_09 os noble house
+	this.m.CombatMusic = this.Const.Music.NobleTracks;		--> music in case of fight with this faction
+	this.m.Footprints = this.Const.GenericFootprints;		--> human footprint this.Const.World.FootprintsType.Nobles??? controlla
+	this.m.PlayerRelation = 0.0;							--> 0 mean enemy with the player
+	//show in the UI faction menu
+	this.m.IsHiddenIfNeutral = false
+	this.m.IsHidden = true
+	this.m.IsRelationDecaying = false;	
+	
+	see the implementation of the noble_faction and FactionManager.createNobleHouses() to add extra info like:
+		banner,
+		Traits,
+		Roster wiht person that manage the house
+	
+- 4.4) add the trait to the faction
+		
+	add same other extra info but the most important is the trait defined in the FactionTrait
+	and then push all the faction in the array of the factions: this.m.Factions.push(f); 
+	
+	example:
+	function createBandits()
+	{
+		local f = this.new("scripts/factions/bandit_faction");
+		f.setID(this.m.Factions.len());
+		f.setName("Bandits");
+		f.setDiscovered(true);
+		f.addTrait(this.Const.FactionTrait.Bandit);
+		this.m.Factions.push(f);
+	}
+	
+	very interesting, when you call addTrait(), internally it create all the actions instances and add to the internal variables m.Deck = []
+	
+
+
+
+
+

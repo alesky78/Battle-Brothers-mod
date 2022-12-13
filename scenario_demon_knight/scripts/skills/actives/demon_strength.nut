@@ -104,6 +104,13 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		effect.m.fatigue_recovery_per_turn = this.m.fatigue_recovery_per_turn;
 		this.m.Container.add(effect);
 		
+		//sacrifice of blood
+		local n = _user.m.BloodType;
+		for( local i = 0; i < this.Const.Tactical.BloodEffects[n].len(); i = ++i )
+		{
+			this.Tactical.spawnParticleEffect(false, this.Const.Tactical.BloodEffects[n][i].Brushes, _targetTile, this.Const.Tactical.BloodEffects[n][i].Delay, this.Const.Tactical.BloodEffects[n][i].Quantity, this.Const.Tactical.BloodEffects[n][i].LifeTimeQuantity, this.Const.Tactical.BloodEffects[n][i].SpawnRate, this.Const.Tactical.BloodEffects[n][i].Stages);
+		}
+		
 		this.m.Container.add(this.new("scripts/skills/effects/bleeding_effect"));		
 		
 		return true;

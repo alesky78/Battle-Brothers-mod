@@ -1,5 +1,7 @@
 this.demon_scream_effect <- this.inherit("scripts/skills/skill", {
-	m = {},
+	m = {
+		sprites = {}
+	},
 	function create()
 	{
 		this.m.ID = "effects.demon_scream";
@@ -32,6 +34,22 @@ this.demon_scream_effect <- this.inherit("scripts/skills/skill", {
 			}
 		];
 	}
+	
+	function onCombatFinished()
+	{
+		
+		local _user = this.getContainer().getActor();
+		
+		foreach (key, value in this.m.sprites) {
+			local sprite = this.m.sprites[key];
+			if (_user.hasSprite(sprite.name)){
+					_user.getSprite(sprite.name).Color = sprite.color;
+			}
+		}
+	
+		this.skill.onCombatFinished();	
+
+	}	
 
 
 });

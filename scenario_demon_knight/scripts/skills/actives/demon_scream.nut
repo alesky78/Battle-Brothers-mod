@@ -177,9 +177,38 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 			}
 		}
 		
-		this.m.Container.add(this.new("scripts/skills/effects/demon_scream_effect"));
+		//smock effect during transformation
+		if (this.Const.Tactical.SmokeParticles.len() != 0)
+		{
+			for( local i = 0; i < this.Const.Tactical.SmokeParticles.len(); i = ++i )
+			{
+				this.Tactical.spawnParticleEffect(false, this.Const.Tactical.SmokeParticles[i].Brushes, _user.getTile(), this.Const.Tactical.SmokeParticles[i].Delay, this.Const.Tactical.SmokeParticles[i].Quantity, this.Const.Tactical.SmokeParticles[i].LifeTimeQuantity, this.Const.Tactical.SmokeParticles[i].SpawnRate, this.Const.Tactical.SmokeParticles[i].Stages);
+			}
+		}				
+		
+		//all the sprites that become red
+		local sprites = {};
+		sprites.head <- {};
+		sprites.head.name <- "head";
+		sprites.head.color <- "";
+		sprites.body <- {};
+		sprites.body.name <- "body";
+		sprites.body.color <- "";					
+		
+		foreach (key, value in sprites) {
+			local sprite = sprites[key];
+			if (_user.hasSprite(sprite.name)){
+					sprite.color = _user.getSprite(sprite.name).Color;
+					_user.getSprite(sprite.name).Color = this.createColor("#860111")
+				}
+		}
+				
+		local effect = this.new("scripts/skills/effects/demon_scream_effect");
+		effect.m.sprites = sprites;
+		this.m.Container.add(effect);
 
 		return true;
+		
 	}
 
 });
