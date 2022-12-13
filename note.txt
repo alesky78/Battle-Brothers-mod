@@ -63,6 +63,20 @@ after the creation of the factions it call
 	- create all the relationsheep between the faction createAlliances();
 	- for each faction created call the method onUpdateRoster(); --> create the character that are show in the roster that you can see in the UI page of the factions, 
 																	 this is used only by noble house and settlement becouse this are the factions that you see in the page Factions
+																	 
+- 3) FactionManager.runSimulation()
+
+	to check becouse in the wushi mod he add:
+	local runSimulation = o.runSimulation;		
+	o.runSimulation = function()
+	{	
+		runSimulation()
+		local wushi = this.getFactionOfType(this.Const.FactionType.Wushi);
+		for( local i = 0; i < this.Const.Factions.CyclesOnNewCampaign; i = ++i )
+		{
+			wushi.update(true, true);
+		}
+	}	
 	
 
 #################

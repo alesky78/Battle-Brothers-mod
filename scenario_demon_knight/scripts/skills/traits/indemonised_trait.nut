@@ -147,7 +147,7 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 	function onUpdate( _properties )
 	{
 	
-		//da analizzare effect/berserker_rage_effect e prorpio fico e fa vedere come aumentare i poteri con il passare dei turni
+		//to analizze effect/berserker_rage_effect to implement a version base on the Hitpoints damage received
 	
 		//day passed since last kill
 		this.m.days_Passed_no_kill = this.Math.ceil((this.getGameSessionTime() - this.m.last_time_kill) / this.World.getTime().SecondsPerDay);

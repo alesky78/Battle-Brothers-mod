@@ -1,5 +1,7 @@
 this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_scenario", {
-	m = {},
+	m = {
+		becomeValid = false
+	},
 	function create()
 	{
 		this.m.ID = "scenario.demon_knight";
@@ -12,9 +14,9 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 
 	function isValid()
 	{
-		return true;
+		return this.m.becomeValid;
 	}
-
+	
 	function onSpawnAssets()
 	{
 		local roster = this.World.getPlayerRoster();
