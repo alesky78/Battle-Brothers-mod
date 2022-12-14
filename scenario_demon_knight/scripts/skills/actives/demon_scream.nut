@@ -14,6 +14,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		this.m.SoundOnUse = [
 			"sounds/combat/demon_scream.wav"
 		];
+		this.m.IsSerialized = true;	//skill to save				
 
 		this.m.ActionPointCost = 1;
 		this.m.FatigueCost = 0;
@@ -21,7 +22,6 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		this.m.MaxRange = 0;		
 		
 		this.m.Delay = 0;
-		this.m.IsSerialized = false;
 		this.m.IsActive = true;
 		this.m.IsTargeted = false;	
 		this.m.IsStacking = false;

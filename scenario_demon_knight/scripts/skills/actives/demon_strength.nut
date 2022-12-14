@@ -18,6 +18,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.SoundOnUse = [
 			"sounds/combat/demon_strength.wav"
 		];
+		this.m.IsSerialized = true;	//skill to save		
 
 		this.m.ActionPointCost = 0;
 		this.m.FatigueCost = 0;
@@ -25,7 +26,6 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.MaxRange = 0;		
 		
 		this.m.Delay = 0;
-		this.m.IsSerialized = false;
 		this.m.IsActive = true;
 		this.m.IsTargeted = false;	
 		this.m.IsStacking = false;
@@ -35,8 +35,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.IsShowingProjectile = false;
 		this.m.IsUsingHitchance = false;
 		this.m.IsDoingForwardMove = false;
-		this.m.IsVisibleTileNeeded = true;
-				
+		this.m.IsVisibleTileNeeded = true;			
 	}
 	
 	function getTooltip()
