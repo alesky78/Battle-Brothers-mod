@@ -14,8 +14,8 @@ this.demon_slayer_faction <- this.inherit("scripts/factions/faction", {
 		this.m.PlayerRelation = 0.0;
 		//show in the UI faction menu
 		this.m.IsHiddenIfNeutral = false
-		this.m.IsHidden = true
-		this.m.IsRelationDecaying = false;	
+		this.m.IsHidden = false
+		this.m.IsRelationDecaying = true;	
 	}
 
 	function onSerialize( _out )
@@ -31,6 +31,16 @@ this.demon_slayer_faction <- this.inherit("scripts/factions/faction", {
 	function getBannerSmall()
 	{
 		return "banner_noble_" + (this.m.Banner < 10 ? "0" + this.m.Banner : this.m.Banner);
+	}	
+	
+	function getMotto()
+	{
+		return "Primus gra-dus pietatis est sanctitatem diligere, postea Sanctos";
+	}	
+	
+	function getDescription()
+	{
+		return "The demon slayer knights, also known simply demon slayer, are a religious order of knights whose sole purpose is to wipe all demonic forms off the face of the earth and send them back into the dark abyss of hell.";
 	}	
 	
 	function onUpdateRoster()
