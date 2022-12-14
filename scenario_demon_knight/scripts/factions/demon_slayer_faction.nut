@@ -1,6 +1,7 @@
 this.demon_slayer_faction <- this.inherit("scripts/factions/faction", {
 	m = {
 		HairColor = 0
+		FootprintsType = 0		
 	},
 	function create()
 	{
@@ -10,7 +11,8 @@ this.demon_slayer_faction <- this.inherit("scripts/factions/faction", {
 		this.m.Base = "world_base_07";
 		this.m.TacticalBase = "bust_base_military";
 		this.m.CombatMusic = this.Const.Music.NobleTracks;
-		this.m.Footprints = this.Const.GenericFootprints;		
+		this.m.Footprints = this.Const.GenericFootprints;	
+		this.m.FootprintsType = this.Const.World.FootprintsType.Nobles;
 		this.m.PlayerRelation = 0.0;
 		//show in the UI faction menu
 		this.m.IsHiddenIfNeutral = false

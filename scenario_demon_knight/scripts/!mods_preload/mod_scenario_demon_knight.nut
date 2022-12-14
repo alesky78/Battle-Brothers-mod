@@ -33,7 +33,8 @@
 		local createFactions = o.createFactions;
 		o.createFactions = function()
 		{	
-			createFactions()
+			createFactions();
+			
 			local demon_slayer_faction = this.new("scripts/factions/demon_slayer_faction")
 			demon_slayer_faction.setID(this.m.Factions.len());
 			demon_slayer_faction.setName("Demon Slayer");
@@ -55,7 +56,25 @@
 			demon_slayer_faction.setBanner(banner);
 			
 			this.m.Factions.push(demon_slayer_faction);
-		}			
+			
+			//create alliance with demon_slayer_factions
+			local ally = null
+			ally = this.getFactionsOfType(this.Const.FactionType.NobleHouse);
+			foreach(faction in ally ){
+				this.logDebug("demon_slayer allyed with nobles:" + faction.getName());	
+				demon_slayer_faction.addAlly(faction);
+				faction.addAlly(demon_slayer_faction);
+			}
+			ally = this.getFactionsOfType(this.Const.FactionType.Settlement);
+			foreach(faction in ally ){
+				this.logDebug("demon_slayer allyed with settlement:" + faction.getName());	
+				demon_slayer_faction.addAlly(faction);
+				faction.addAlly(demon_slayer_faction);				
+			}			
+			
+		}
+		
+		
 		
 		//update the simualtion adding also the new faction
 		local runSimulation = o.runSimulation;		

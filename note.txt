@@ -24,6 +24,7 @@ Config
 			gt.Const.FactionType --> table that contain name/id of a faction
 			gt.Const.FactionBase --> array that contain the brust of the factions
 			gt.Const.Faction -->  table that contain name/id of a faction
+			gt.Const.FactionAlliance --> table that contain the alliance of a specific faction refernce by the id in the gt.Const.Faction
 			
 	FactionTrait			
 		script --> scripts/config/faction_traits
@@ -103,6 +104,20 @@ Details
 								 
 		gt.Const.Faction --> 	gt.Const.Faction.MY_FACTION <- gt.Const.FactionType.len() - 2;
 								gt.Const.Faction.COUNT = gt.Const.Faction.len(); -> for me better gt.Const.Faction.COUNT = gt.Const.FactionType.COUNT + 1;	
+								
+		gt.Const.FactionAlliance  --> you need to link to the civilian and the noble house the friendship with the demon_slayer faction
+									  and you need to make demon_slayer link with civilian and the noble house
+									
+									Local alliance = null;
+									alliance = gt.Const.FactionAlliance[this.Const.Faction.Civilian];
+									alliance.push(gt.Const.Faction.demon_slayer);
+									alliance = gt.Const.FactionAlliance[this.Const.Faction.NobleHouse];
+									alliance.push(gt.Const.Faction.demon_slayer);	
+									
+									Local demon_slayer_alliance = [this.Const.Faction.demon_slayer,this.Const.Faction.Civilian,this.Const.Faction.NobleHouse];
+									gt.Const.FactionAlliance.push(alliance);	
+		
+
 								 
 - 4.2) preconfigurare FactionTrait scripts/config/faction_traits
 	

@@ -15,7 +15,7 @@ this.demon_slayer_camp_location <- this.inherit("scripts/entity/world/location",
 		this.m.CombatLocation.CutDownTrees = true;
 		this.m.IsDespawningDefenders = false;
 		this.setDefenderSpawnList(this.Const.World.Spawn.Noble);
-		this.m.Resources = 550;
+		this.m.Resources = 500;
 		this.m.NamedShieldsList = this.Const.Items.NamedShields;
 		this.m.NamedWeaponsList = this.Const.Items.NamedMeleeWeapons;
 		this.m.NamedArmorsList = this.Const.Items.NamedArmors;

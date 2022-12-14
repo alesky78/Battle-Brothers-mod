@@ -1,6 +1,6 @@
 this.build_demon_slayer_camp_action <- this.inherit("scripts/factions/faction_action", {
 	m = {
-		developer_mode=false
+		developer_mode=true
 	},
 	function create()
 	{
