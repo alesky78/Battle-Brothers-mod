@@ -28,6 +28,11 @@ this.demon_slayer_faction <- this.inherit("scripts/factions/faction", {
 		this.faction.onDeserialize(_in);
 	}
 	
+	function getBannerSmall()
+	{
+		return "banner_noble_" + (this.m.Banner < 10 ? "0" + this.m.Banner : this.m.Banner);
+	}	
+	
 	function onUpdateRoster()
 	{
 		for( local roster = this.getRoster(); roster.getSize() < 4;  )

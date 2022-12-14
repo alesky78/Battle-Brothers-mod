@@ -1,5 +1,7 @@
 this.build_demon_slayer_camp_action <- this.inherit("scripts/factions/faction_action", {
-	m = {},
+	m = {
+		developer_mode=false
+	},
 	function create()
 	{
 		this.m.ID = "build_demon_slayer_camp_action";
@@ -13,12 +15,12 @@ this.build_demon_slayer_camp_action <- this.inherit("scripts/factions/faction_ac
 
 		if (this.World.FactionManager.isGreaterEvil())
 		{
-			if (settlements.len() > 5)
+			if (settlements.len() > 3)
 			{
 				return;
 			}
 		}
-		else if (settlements.len() > 7)
+		else if (settlements.len() > 3)
 		{
 			return;
 		}
@@ -42,7 +44,7 @@ this.build_demon_slayer_camp_action <- this.inherit("scripts/factions/faction_ac
 				
 		if (r == 1)
 		{
-			tile = this.getTileToSpawnLocation(this.Const.Factions.BuildCampTries, disallowedTerrain, 7, 1000, 1000, 7, 7, null, minY, maxY);
+			tile = this.getTileToSpawnLocation(this.Const.Factions.BuildCampTries, disallowedTerrain, 7, 300, 300, 7, 7, null, minY, maxY);
 
 			if (tile != null)
 			{
@@ -52,13 +54,19 @@ this.build_demon_slayer_camp_action <- this.inherit("scripts/factions/faction_ac
 
 		if (camp != null)
 		{
-			local banner = _faction.getBannerSmall();
+					
 			camp.onSpawned();
+			
+			local banner = _faction.getBannerSmall();			
 			camp.setBanner(banner);
 			_faction.addSettlement(camp, false);
 			
-
-			this.World.uncoverFogOfWar(tile.Pos, 500.0);			
+			if(this.m.developer_mode){
+				this.logDebug("build_demon_slayer_camp_action: show the camp in the word map");				
+				this.World.uncoverFogOfWar(tile.Pos, 500.0);			
+				camp.setDiscovered(true);	//this show in the word map wihtout need to discover it
+			}
+		
 		}
 	}
 

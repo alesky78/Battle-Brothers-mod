@@ -9,7 +9,7 @@ this.demon_slayer_camp_location <- this.inherit("scripts/entity/world/location",
 	{
 		this.location.create();
 		this.m.TypeID = "location.noble_camp";
-		this.m.LocationType = this.Const.World.LocationType.Lair;
+		this.m.LocationType = this.Const.World.LocationType.Lair;	//or this.Const.World.LocationType.Exploration 
 		this.m.CombatLocation.Template[0] = "tactical.human_camp";
 		this.m.CombatLocation.Fortification = this.Const.Tactical.FortificationType.Palisade;
 		this.m.CombatLocation.CutDownTrees = true;

@@ -27,6 +27,8 @@
 	::mods_hookNewObjectOnce("factions/faction_manager", function (o)
 	{
 	
+		this.logDebug("hook: factions/faction_manager");	
+	
 		//create the new faction and push it in the list of the factions
 		local createFactions = o.createFactions;
 		o.createFactions = function()
@@ -69,6 +71,16 @@
 	})	
 	
 	
+	/**
+	* script that permit to enable the development mode
+	* defined in the table m.developer_mode = true;	
+	*	
+	* factions/faction_action/build_demon_slayer_camp_action	--> show immediatelly the demon slayer settlements in the word map
+	*/		
+
+
+
+
 	/*
 	this.logInfo("log_test ouside hook");		//blu
 	this.logError("log_test ouside hook");		//red
