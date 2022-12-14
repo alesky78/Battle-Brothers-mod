@@ -1,6 +1,15 @@
 ::mods_registerMod("mod_scenario_demon_knight", 1.0, "mod_scenario_demon_knight");
 ::mods_queue("mod_scenario_demon_knight", null, function() 
 {	
+
+	/**
+	* script that permit to enable the development mode
+	* defined in the table m.developer_mode = true;	
+	*	
+	* factions/faction_action/build_demon_slayer_camp_action	--> show immediatelly the demon slayer settlements in the word map
+	*/		
+
+
 		
 	/**
 	* the scenario manager during the create() has a dirty implementation to verify if you can see a scenario.
@@ -14,7 +23,7 @@
 		s.m.becomeValid = true;
 		o.m.Scenarios.push(s);
 		o.m.Scenarios.sort(o.onOrderCompare);
-		this.logInfo("demon_knight_scenario added to the scenario_manager");
+		//this.logInfo("demon_knight_scenario added to the scenario_manager");
 
     });
 	
@@ -27,21 +36,23 @@
 	::mods_hookNewObjectOnce("factions/faction_manager", function (o)
 	{
 	
-		this.logDebug("hook: factions/faction_manager");	
+		//this.logDebug("hook: factions/faction_manager");	
 	
-		//create the new faction and push it in the list of the factions
+		//create the new faction and add to the factionManager
 		local createFactions = o.createFactions;
 		o.createFactions = function()
 		{	
 			createFactions();
 			
+			//add the demon_slayer_faction
 			local demon_slayer_faction = this.new("scripts/factions/demon_slayer_faction")
 			demon_slayer_faction.setID(this.m.Factions.len());
 			demon_slayer_faction.setName("Demon Slayer");
 			demon_slayer_faction.setDiscovered(true);
 			demon_slayer_faction.addTrait(this.Const.FactionTrait.demon_slayer);
+			this.m.Factions.push(demon_slayer_faction);
 			
-			//add the banner using noble house banner
+			//add the banner to demon_slayer_faction using noble house banner
 			local banners = [];
 			local factions = this.getFactionsOfType(this.Const.FactionType.NobleHouse)
 			foreach(faction in factions ){
@@ -52,29 +63,19 @@
 			do{
 				banner = this.Math.rand(2, 10);
 			}while (banners.find(banner) != null);			
-			
 			demon_slayer_faction.setBanner(banner);
-			
-			this.m.Factions.push(demon_slayer_faction);
-			
-			//create alliance with demon_slayer_factions
-			local ally = null
-			ally = this.getFactionsOfType(this.Const.FactionType.NobleHouse);
-			foreach(faction in ally ){
-				this.logDebug("demon_slayer allyed with nobles:" + faction.getName());	
-				demon_slayer_faction.addAlly(faction);
-				faction.addAlly(demon_slayer_faction);
+
+			//create alliance with demon_slayer_factions			
+			for( local i = 0; i < this.m.Factions.len(); i = ++i ){
+				if (this.m.Factions[i] != null && (this.m.Factions[i].getType() == this.Const.FactionType.Settlement || this.m.Factions[i].getType() == this.Const.FactionType.NobleHouse )){
+					demon_slayer_faction.addAlly(i);
+					this.m.Factions[i].addAlly(demon_slayer_faction.getID());					
+					//this.logDebug("alliance created for index: " + i + " name:" + m.Factions[i].getName());									
+				}
+				
 			}
-			ally = this.getFactionsOfType(this.Const.FactionType.Settlement);
-			foreach(faction in ally ){
-				this.logDebug("demon_slayer allyed with settlement:" + faction.getName());	
-				demon_slayer_faction.addAlly(faction);
-				faction.addAlly(demon_slayer_faction);				
-			}			
-			
+	
 		}
-		
-		
 		
 		//update the simualtion adding also the new faction
 		local runSimulation = o.runSimulation;		
@@ -89,24 +90,6 @@
 		}		
 	})	
 	
-	
-	/**
-	* script that permit to enable the development mode
-	* defined in the table m.developer_mode = true;	
-	*	
-	* factions/faction_action/build_demon_slayer_camp_action	--> show immediatelly the demon slayer settlements in the word map
-	*/		
-
-
-
-
-	/*
-	this.logInfo("log_test ouside hook");		//blu
-	this.logError("log_test ouside hook");		//red
-	this.logWarning("log_test ouside hook");	//orange
-	this.logDebug("log_test ouside hook");		//yellow	
-	
-	*/
 });
 
 
