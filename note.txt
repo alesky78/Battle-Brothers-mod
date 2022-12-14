@@ -32,7 +32,21 @@ Config
 									  for each factio a unique integer id 
 									  an extra key called Action that is an array of array: 
 											each element of this array is again an array that contains a slist of script names, are the script of the actions associated
-											remember that the code use unique integer id of the faction to determine what is the i-element in the Action associated to the faction  
+											remember that the code use unique integer id of the faction to determine what is the i-element in the Action associated to the faction 
+
+	Spawnlist_<faction>
+		script --> scripts/config/spawnlist_<faction>
+		define:
+			gt.Const.World.Spawn.BanditRoamers 	 --> the composition of the group romaers
+			gt.Const.World.Spawn.BanditDefenders --> the composition of the group defender
+			gt.Const.World.Spawn.Bandit.....	 --> the composition of the group .......
+			
+	Spawnlist_master
+		script --> scripts/config/spawnlist_master
+		define:
+			gt.Const.World.Spawn.Troops 	 	--> it is a table and inside define all the possible entity of the game
+			gt.Const.World.Spawn.Caravan		
+			gt.Const.World.Spawn.CaravanEscort
 
 #############
 the process:
@@ -52,13 +66,13 @@ after the creation of the factions it call
 
 	prepare configuration for the new faction
 	Factions  		--> see 4.1
-	FactionTrait 	--> see 4.2
+	FactionTrait 	--> see 4.2 & 4.3 (do add action in the FactionTrait)
 
 	this functions in order
-	- create one by one all the factions --> see 4.3
+	- create one by one all the factions --> see 4.4
 	- create the settlement
 	- create the noble house and add the settlement to the noble house	
-	- add the trait to the faction 	   --> see 4.4
+	- add the trait to the faction 	   --> see 4.5
 	- add the faction to the array of the FactionManager this.m.Factions.push(f); 
 	- create all the relationsheep between the faction createAlliances();
 	- for each faction created call the method onUpdateRoster(); --> create the character that are show in the roster that you can see in the UI page of the factions, 
@@ -66,17 +80,9 @@ after the creation of the factions it call
 																	 
 - 3) FactionManager.runSimulation()
 
-	to check becouse in the wushi mod he add:
-	local runSimulation = o.runSimulation;		
-	o.runSimulation = function()
-	{	
-		runSimulation()
-		local wushi = this.getFactionOfType(this.Const.FactionType.Wushi);
-		for( local i = 0; i < this.Const.Factions.CyclesOnNewCampaign; i = ++i )
-		{
-			wushi.update(true, true);
-		}
-	}	
+	this function in order
+	- create a variable for each factio exsist												
+	- for each faction created call the function update(true, true) of the faction  --> see 4.6
 	
 
 #################
@@ -108,10 +114,53 @@ Details
 			"scripts/factions/actions/send_xxx_roamers_action",
 			"scripts/factions/actions/defend_xxx_action"
 		]);
-								 
-	STUDIARE COME CREARE UNA ACTION
+				
+- 4.3) create an action
+	
+		there are different actions to study, i will list the most interesting for me
+		
+		4.3.1 - scripts/factions/actions/build_xxx_camp_action --> responsible to build the settlement
+		
+			- explanation
+			this are very simple, and very similar one to the others you can find it in the scripts/factions/actions/build_xxx_camp_action
+			for example build_barbarian_camp_action or build_bandit_camp_action
+			important to know that this action determine the maximum amount of settlements possible. 
+			Inside its implementation it will call this.World.spawnLocation("scripts/entity/world/locations/barbarian_shelter_location", tile.Coords);
+			then you have to crete an entity location for the all the possible locations that you need
+			in the end it add the banned is requested to the location
+			
+			- create the location entity
+			this are contained under the path scripts/entity/world/locations/ 
+			very interesting for my project is the noble_camp_location, but it is limited so integrate with the bandit for example
+			
+				ex: bandit_camp_location
+				1)require to popolate the create() customizing the default values
+			
+				this.location.create();
+				this.m.TypeID = "location.bandit_camp";
+				this.m.LocationType = this.Const.World.LocationType.Lair; --> very important use the constand in Const.World.LocationType defined in the config/word_location don't use Settlement or Unique that has special purpose
+				this.m.CombatLocation.Template[0] = "tactical.human_camp";	--> constant to copy from the others
+				this.m.CombatLocation.Fortification = this.Const.Tactical.FortificationType.Palisade;	--> constant to copy from the others
+				this.m.CombatLocation.CutDownTrees = true;
+				this.m.IsDespawningDefenders = false;
+				this.setDefenderSpawnList(this.Const.World.Spawn.BanditDefenders);	--> define a completelly new constant with the spaws list of your faction see below how define the new constant
+				this.m.Resources = 180;
+				this.m.NamedShieldsList = this.Const.Items.NamedBanditShields; -->
+				
+				you need to define two new constant config
+				spawnlist_<faction> --> where faction is the name of your factions the example are in the script/config/spawnlist_<faction_name>
+				spawnlist_master --> this is a unique constant class that contain all the entity defined in the spawnlist_<faction> so probably is better to create a new master in case you need it
+				
+				2)require to popolate the onInit()customizing the default values
+				
+				normally here it is used just to determine the aspect/icon of the camp to show in the word map
+				put attention to the noble_camp_location and the decisive_battle_contract that determine same interensting parameters like
+				this.Warcamp.setDiscovered(true);
+				this.World.uncoverFogOfWar(Warcamp.getTile().Pos, 500.0);
+				
 
-- 4.3) create a single factions
+
+- 4.4) create a single factions
 	all the faction inherit from the script scripts/factions/faction
 	redefine the method create() to overwrite alle the variables customizing it
 	
@@ -133,7 +182,7 @@ Details
 		Traits,
 		Roster wiht person that manage the house
 	
-- 4.4) add the trait to the faction
+- 4.5) add the trait to the faction
 		
 	add same other extra info but the most important is the trait defined in the FactionTrait
 	and then push all the faction in the array of the factions: this.m.Factions.push(f); 
@@ -145,12 +194,35 @@ Details
 		f.setID(this.m.Factions.len());
 		f.setName("Bandits");
 		f.setDiscovered(true);
-		f.addTrait(this.Const.FactionTrait.Bandit);
+		f.addTrait(this.Const.FactionTrait.Bandit);	//add the trait
 		this.m.Factions.push(f);
 	}
 	
 	very interesting, when you call addTrait(), internally it create all the actions instances and add to the internal variables m.Deck = []
+
+- 4.6) run the simulation of the faction
+
+	runSimulation() function has a static approach like this:
+	local barbarians = this.Const.DLC.Wildmen ? this.getFactionOfType(this.Const.FactionType.Barbarians) : null;
 	
+	then if you add a new faction it will not identify it
+	later it will call update 2000 times, the update will activate the action and create a starting scenario 	
+	
+	the solution is this:
+
+	::mods_hookNewObjectOnce("factions/faction_manager", function (o)
+	{
+		local runSimulation = o.runSimulation;		
+		o.runSimulation = function()
+		{	
+			runSimulation()
+			local MyFaction = this.getFactionOfType(this.Const.FactionType.MyFaction);
+			for( local i = 0; i < this.Const.Factions.CyclesOnNewCampaign; i = ++i )
+			{
+				MyFaction.update(true, true);
+			}
+		}		
+	})	
 
 
 

@@ -19,12 +19,57 @@
     });
 	
 	
+	/**
+	* the faction_manager must be modified in the way to 
+	* 1 - create the new faction 
+	* 2 - update the new faction
+	*/
+	::mods_hookNewObjectOnce("factions/faction_manager", function (o)
+	{
+	
+		//create the new faction and push it in the list of the factions
+		local createFactions = o.createFactions;
+		o.createFactions = function()
+		{	
+			createFactions()
+			local demon_slayer_faction = this.new("scripts/factions/demon_slayer_faction")
+			demon_slayer_faction.setID(this.m.Factions.len());
+			demon_slayer_faction.setName("Demon Slayer");
+			demon_slayer_faction.setDiscovered(true);
+			demon_slayer_faction.addTrait(this.Const.FactionTrait.demon_slayer);
+			
+			//add the banner using noble house banner
+			local banners = [];
+			local factions = this.getFactionsOfType(this.Const.FactionType.NobleHouse)
+			foreach(faction in factions ){
+					banners.push(faction.m.Banner);
+			}
+			
+			local banner;
+			do{
+				banner = this.Math.rand(2, 10);
+			}while (banners.find(banner) != null);			
+			
+			demon_slayer_faction.setBanner(banner);
+			
+			this.m.Factions.push(demon_slayer_faction);
+		}			
+		
+		//update the simualtion adding also the new faction
+		local runSimulation = o.runSimulation;		
+		o.runSimulation = function()
+		{	
+			runSimulation()
+			local demon_slayer_faction = this.getFactionOfType(this.Const.FactionType.demon_slayer);
+			for( local i = 0; i < this.Const.Factions.CyclesOnNewCampaign; i = ++i )
+			{
+				demon_slayer_faction.update(true, true);
+			}
+		}		
+	})	
+	
+	
 	/*
-	// OK - mods_hookNewObject can be used to overwrite the properties value
-	::mods_hookNewObject("skills/actives/aimed_shot", function(o){ 
-		o.m.ActionPointCost = 1; 
-	})
-
 	this.logInfo("log_test ouside hook");		//blu
 	this.logError("log_test ouside hook");		//red
 	this.logWarning("log_test ouside hook");	//orange
