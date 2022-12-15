@@ -27,6 +27,8 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		
 		bro.getBackground().m.RawDescription = "A Demon Knight, anyone approaching him feels a sense of dread, you must face every challenge alone";
 		bro.getBackground().buildDescription(true);
+		
+		bro.setTitle("The Demon knight");
 				
 		//trait
 		bro.getSkills().add(this.new("scripts/skills/traits/player_character_trait"));
