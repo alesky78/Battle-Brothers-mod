@@ -6,7 +6,7 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 	{
 		this.m.ID = "scenario.demon_knight";
 		this.m.Name = "The Demon Knigh";
-		this.m.Description = "[p=c][img]gfx/ui/events/event_scenario_demon_knight.png[/img][/p][p]William had a rough life. Younger son of a lord, he got caught up in a succession crisis at 6. William was taken prisoner to be used as leverage to force a surrender. He survived and, by age 12, thanks to his talents was being trained as a knight. He received land as a dowry and rebuilt his family but it was brutally murdered in front of him. \n\n[color=#bcad8c]Lone Wolf:[/color] Start with William Marshal and indemonised knight with monstrous powers.\n[color=#bcad8c]Elite Few:[/color] Can never have more than 1 men in your roster.\n[color=#bcad8c]Avatar:[/color] If William dies, the campaign ends.[/p]";
+		this.m.Description = "[p=c][img]gfx/ui/events/event_scenario_demon_knight.png[/img][/p][p]You had a rough life. Younger son of a lord got caught up in a succession crisis, become a slave. You survived to all this and being trained as a knight. \n\n[color=#bcad8c]Lone Wolf:[/color] Start with and indemonised knight.\n[color=#bcad8c]Elite Few:[/color] Can never have more than 1 men in your roster.\n[color=#bcad8c]Skilled:[/color] Start with few free of charge perks.\n[color=#bcad8c]Avatar:[/color] If you avatar dies, the campaign ends.[/p]";
 		this.m.Difficulty = 3;
 		this.m.Order = 1;
 		this.m.IsFixedLook = true;
@@ -21,24 +21,22 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 	{
 		local roster = this.World.getPlayerRoster();
 		local bro = roster.create("scripts/entity/tactical/player");
-		local background = this.new("scripts/skills/backgrounds/hedge_knight_background");
 		
 		//set the startign value 
-		setStartValuesEx(bro, "hedge_knight_background");
+		setStartValuesEx(bro, "demon_knight_background");
 		
-		bro.getBackground().m.RawDescription = "A demon knight, anyone approaching him feels a sense of dread, you must face every challenge alone";
+		bro.getBackground().m.RawDescription = "A Demon Knight, anyone approaching him feels a sense of dread, you must face every challenge alone";
 		bro.getBackground().buildDescription(true);
-		bro.setName("William Marshal")	
-		bro.setTitle("The Demon Knight");
 				
 		//trait
 		bro.getSkills().add(this.new("scripts/skills/traits/player_character_trait"));
 		bro.getSkills().add(this.new("scripts/skills/traits/iron_lungs_trait"));
-		//bro.getSkills().add(this.new("scripts/skills/traits/indemonised_trait"));		this trait is obtained by the starting event
+		//bro.getSkills().add(this.new("scripts/skills/traits/indemonised_trait"));		this trait is obtained by the starting event, see event.demon_knight_scenario_intro
 			
 		//generic data
 		bro.setPlaceInFormation(4);
 		bro.getFlags().set("IsPlayerCharacter", true);
+		
 		bro.getSprite("miniboss").setBrush("bust_miniboss_lone_wolf");
 		bro.m.HireTime = this.Time.getVirtualTimeF();
 
@@ -81,7 +79,7 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		
 		//weapon and armour 
 		items.equip(this.new("scripts/items/armor/sellsword_armor"));
-		items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));
+		items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));	
 		items.equip(this.new("scripts/items/weapons/longsword"));
 		
 		//reputation
@@ -101,7 +99,8 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 			//set default logic and don't add any new trait
 			bro.setStartValuesEx([background_name],false);
 	
-/*
+			/*in case you want to force the attributes to the max of the background
+			
 			//standard values map defined in the scripts\skills\backgrounds\character_background.nut
 			local a = {
 				Hitpoints = [50,60],
@@ -191,7 +190,8 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		while (1);
 
 		this.World.State.m.Player = this.World.spawnEntity("scripts/entity/world/player_party", randomVillageTile.Coords.X, randomVillageTile.Coords.Y);
-		this.World.Assets.updateLook(6);
+		this.World.Assets.updateLook(6); 	 //sellman look
+		
 		this.World.getCamera().setPos(this.World.State.m.Player.getPos());
 		this.Time.scheduleEvent(this.TimeUnit.Real, 1000, function ( _tag )
 		{

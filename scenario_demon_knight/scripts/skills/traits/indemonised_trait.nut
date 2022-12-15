@@ -158,13 +158,13 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			multiplier = (actor.m.Level/11.0);			
 		}			
 						
-		this.m.attribute_Initiative		=  this.Math.abs(this.Math.max(0, (30*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_Bravery 		=  this.Math.abs(this.Math.max(0, (30*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_MeleeSkill		=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_MeleeDefense	=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_RangedDefense	=  this.Math.abs(this.Math.max(0, (15*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_Stamina		=  this.Math.abs(this.Math.max(0, (50*multiplier)) - this.m.days_Passed_no_kill);
-		this.m.attribute_Hitpoints		=  this.Math.abs(this.Math.max(0, (50*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Initiative		=  this.Math.abs(this.Math.max(0, (33*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Bravery 		=  this.Math.abs(this.Math.max(0, (33*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_MeleeSkill		=  this.Math.abs(this.Math.max(0, (11*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_MeleeDefense	=  this.Math.abs(this.Math.max(0, (11*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_RangedDefense	=  this.Math.abs(this.Math.max(0, (11*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Stamina		=  this.Math.abs(this.Math.max(0, (66*multiplier)) - this.m.days_Passed_no_kill);
+		this.m.attribute_Hitpoints		=  this.Math.abs(this.Math.max(0, (66*multiplier)) - this.m.days_Passed_no_kill);
 						
 		_properties.Initiative += this.m.attribute_Initiative;
 		_properties.Bravery += this.m.attribute_Bravery;
