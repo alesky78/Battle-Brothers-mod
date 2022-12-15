@@ -1,5 +1,7 @@
 this.demon_knight_intro_event <- this.inherit("scripts/events/event", {
-	m = {},
+	m = {
+		indemonised = null	
+	},
 	function create()
 	{
 		this.m.ID = "event.demon_knight_scenario_intro";
@@ -23,7 +25,16 @@ this.demon_knight_intro_event <- this.inherit("scripts/events/event", {
 			],
 			function start( _event )
 			{
+				local skill = this.new("scripts/skills/traits/indemonised_trait");
+				_event.m.indemonised.getSkills().add(skill);				
+			
 				this.Banner = "ui/banners/" + this.World.Assets.getBanner() + "s.png";
+				this.Characters.push(_event.m.indemonised.getImagePath());
+				this.List.push({
+					id = 16,
+					icon = "ui/traits/trait_icon_indemonised.png",
+					text = _event.m.indemonised.getNameOnly() + " gains " + skill.getName() + " trait"
+				});				
 			}
 
 		});
@@ -31,7 +42,25 @@ this.demon_knight_intro_event <- this.inherit("scripts/events/event", {
 
 	function onUpdateScore()
 	{
-		return;
+		local brothers = this.World.getPlayerRoster().getAll();	
+		
+		local candidates = [];
+		
+		foreach( bro in brothers )
+		{
+		
+			if(bro!=null && !bro.m.Skills.hasSkill("trait.indemonised")){
+				candidates.push(bro);
+			}				
+		}
+		
+		if (candidates.len() == 0)
+		{
+			return;
+		}
+
+		this.m.indemonised = candidates[this.Math.rand(0, candidates.len() - 1)];
+		
 	}
 
 	function onPrepare()
@@ -45,6 +74,7 @@ this.demon_knight_intro_event <- this.inherit("scripts/events/event", {
 
 	function onClear()
 	{
+		this.m.indemonised = null;
 	}
 
 });

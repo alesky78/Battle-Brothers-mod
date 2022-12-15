@@ -33,8 +33,8 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 				
 		//trait
 		bro.getSkills().add(this.new("scripts/skills/traits/player_character_trait"));
-		bro.getSkills().add(this.new("scripts/skills/traits/indemonised_trait"));	
 		bro.getSkills().add(this.new("scripts/skills/traits/iron_lungs_trait"));
+		//bro.getSkills().add(this.new("scripts/skills/traits/indemonised_trait"));		this trait is obtained by the starting event
 			
 		//generic data
 		bro.setPlaceInFormation(4);

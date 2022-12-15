@@ -14,7 +14,7 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 	function create()
 	{
 		this.character_trait.create();
-		this.m.ID = "indemonised.master";
+		this.m.ID = "trait.indemonised";
 		this.m.Name = "Indemonised";
 		this.m.Icon = "ui/traits/trait_icon_indemonised.png";
 		this.m.Description = "Horribly inhuman, feels no fear, he desires only death and destruction of his enemies.";
