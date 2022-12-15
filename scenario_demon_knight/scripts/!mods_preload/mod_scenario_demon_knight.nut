@@ -10,7 +10,6 @@
 	*/		
 
 
-		
 	/**
 	* the scenario manager during the create() has a dirty implementation to verify if you can see a scenario.
 	* To add properly the new scenario avoiding to impact the scenario already installed, add the new scenario after all the other scenario are added
@@ -27,6 +26,56 @@
 
     });
 	
+	/**
+	* there are same events that become incompatible with this scneario then create a function to support the delete
+	* function deleteEventByID(ID);
+	*/
+	::mods_hookNewObject("events/event_manager", function(o){ 
+	  		
+		o.deleteEventByID <- function(ID)
+		{
+			local index = null;
+			local event = null;
+			for( local i = 0; i < this.m.Events.len(); i = ++i ){
+				event = this.m.Events[i];
+				if(event!=null && event.m.ID==ID){
+					index = i;
+				}
+			}
+			
+			if(index!=null){
+				this.m.Events.remove(index)
+				//this.logDebug("hook: events/event_manager event delete: "+ID);
+			}
+		}
+    });
+	
+	/**
+	* there are same ambitions that become incompatible with this scneario then create a function to support the delete 
+	* function deleteEventByID(ID);
+	*/
+	::mods_hookNewObject("ambitions/ambition_manager", function(o){ 
+	  		
+		o.deleteAmbitionByID <- function(ID)
+		{
+			local index = null;
+			local ambition = null;
+			for( local i = 0; i < this.m.Ambitions.len(); i = ++i ){
+				ambition = this.m.Ambitions[i];
+				if(ambition!=null && ambition.m.ID==ID){
+					index = i;
+				}
+			}
+			
+			if(index!=null){
+				this.m.Ambitions.remove(index)
+				//this.logDebug("hook: ambitions/ambition_manager ambition delete: "+ID);
+			}
+		}
+    });	
+	
+	
+		
 	
 	/**
 	* the faction_manager must be modified in the way to 

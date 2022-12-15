@@ -202,7 +202,28 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 
 	function onInit()
 	{
+		//set the max brothers
 		this.World.Assets.m.BrothersMax = 1;
+		
+		//clean the incompatibel events: by indemonised_trait avatar don't eat more but need to kill enemy to restore
+		this.World.Events.deleteEventByID("event.good_food_variety");
+		this.World.Events.deleteEventByID("event.no_food_variety");			
+		this.World.Events.deleteEventByID("event.no_food");					
+		this.World.Events.deleteEventByID("event.hunt_food");
+		this.World.Events.deleteEventByID("event.food_goes_bad");		
+		
+		//clean the incompatibel ambitions: this is a lone scenario
+		this.World.Ambitions.deleteAmbitionByID("ambition.hammer_mastery");	//i have this mastery by default
+		this.World.Ambitions.deleteAmbitionByID("ambition.have_all_provisions");		
+		this.World.Ambitions.deleteAmbitionByID("ambition.have_talent");		
+		this.World.Ambitions.deleteAmbitionByID("ambition.hire_follower");		
+		this.World.Ambitions.deleteAmbitionByID("ambition.ranged_mastery");
+		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_12");	
+		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_16");
+		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_20");
+		this.World.Ambitions.deleteAmbitionByID("ambition.sergeant");
+		this.World.Ambitions.deleteAmbitionByID("ambition.weapon_mastery");
+	
 	}
 
 	function onCombatFinished()
