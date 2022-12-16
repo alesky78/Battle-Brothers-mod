@@ -140,10 +140,33 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 
 	function onUse( _user, _targetTile )
 	{
+
+		local myTile = _user.getTile();
+		local dir = myTile.getDirectionTo(_targetTile);
+
+		//determine the targets
+		local targets = [];		
+		if (_targetTile.IsOccupiedByActor && _targetTile.getEntity().isAttackable())
+		{
+			targets.push(_targetTile.getEntity());
+		}
+		
+		if (_targetTile.hasNextTile(dir))
+		{
+			local nextTile = _targetTile.getNextTile(dir);
+
+			if (nextTile.IsOccupiedByActor && nextTile.getEntity().isAttackable() && this.Math.abs(nextTile.Level - myTile.Level) <= 1)
+			{
+				targets.push(nextTile.getEntity());
+			}
+		}
+
 		local tag = {
 			User = _user,
-			TargetTile = _targetTile
-		};
+			TargetTile = _targetTile,
+			Targets = targets			
+		};		
+		
 		this.Time.scheduleEvent(this.TimeUnit.Virtual, 500, this.onDelayedEffect.bindenv(this), tag);
 		return true;
 	}	
@@ -152,8 +175,9 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 	{
 		local user = _tag.User;
 		local targetTile = _tag.TargetTile;
+		local targets  = _tag.Targets;
+		
 		local myTile = user.getTile();
-		local dir = myTile.getDirectionTo(targetTile);
 
 		if (myTile.IsVisibleForPlayer)
 		{
@@ -172,23 +196,6 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 					local effect = this.Const.Tactical.FireLanceLeftParticles[i];
 					this.Tactical.spawnParticleEffect(false, effect.Brushes, myTile, effect.Delay, effect.Quantity, effect.LifeTimeQuantity, effect.SpawnRate, effect.Stages, this.createVec(0, 0));
 				}
-			}
-		}
-
-		local targets = [];
-
-		if (targetTile.IsOccupiedByActor && targetTile.getEntity().isAttackable())
-		{
-			targets.push(targetTile.getEntity());
-		}
-
-		if (targetTile.hasNextTile(dir))
-		{
-			local nextTile = targetTile.getNextTile(dir);
-
-			if (nextTile.IsOccupiedByActor && nextTile.getEntity().isAttackable() && this.Math.abs(nextTile.Level - myTile.Level) <= 1)
-			{
-				targets.push(nextTile.getEntity());
 			}
 		}
 
