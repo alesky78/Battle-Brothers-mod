@@ -1,0 +1,4 @@
+
+
+//to analizze effect/berserker_rage_effect to implement a version base on the Hitpoints damage received
+//could be an active trait of the demon
