@@ -50,9 +50,10 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		bro.m.Attributes = [];
 		local talents = bro.getTalents();
 		talents.resize(this.Const.Attributes.COUNT, 0);
+		talents[this.Const.Attributes.MeleeSkill] = 3;			
 		talents[this.Const.Attributes.MeleeDefense] = 3;
+		talents[this.Const.Attributes.Hitpoints] = 3;			
 		talents[this.Const.Attributes.Fatigue] = 3;
-		talents[this.Const.Attributes.MeleeSkill] = 3;
 		talents[this.Const.Attributes.Bravery] = 3;		
 		
 		//fill the attributes

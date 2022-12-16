@@ -21,7 +21,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.IsSerialized = true;	//skill to save		
 
 		this.m.ActionPointCost = 0;
-		this.m.FatigueCost = 10;
+		this.m.FatigueCost = 15;
 		this.m.MinRange = 0;
 		this.m.MaxRange = 0;		
 		
@@ -59,8 +59,38 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 			{
 				id = 7,
 				type = "text",
+				icon = "ui/icons/damage_received.png",				
+				text = "Become [color=" + this.Const.UI.Color.NegativeValue + "]bleeding[/color] but obtain extra power from the demon, valid till you are bleeding"
+			},
+			{
+				id = 8,
+				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Become [color=" + this.Const.UI.Color.NegativeValue + "]bleeding[/color] but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn, killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point, [color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
+				text = "Adrenaline rush"
+			},
+			{
+				id = 9,
+				type = "text",
+				icon = "ui/icons/fatigue.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn"
+			},
+			{
+				id = 10,
+				type = "text",
+				icon = "ui/icons/action_points.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn"
+			},
+			{
+				id = 11,
+				type = "text",
+				icon = "ui/icons/action_points.png",
+				text = "killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point"
+			},
+			{
+				id = 12,
+				type = "text",
+				icon = "ui/icons/regular_damage.png",
+				text = "[color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
 			}
 		];
 		return ret;
@@ -75,6 +105,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 	*/
 	function onCombatStarted()
 	{
+		this.skill.onCombatStarted();
 		updateSkillPowerByLever();
 	}		
 	
@@ -93,7 +124,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 			this.m.fatigue_recovery_per_turn = 6;
 			
 			local multiplier = 1.0; 
-			if(actor.m.Level<12){
+			if(actor.m.Level<11){
 				multiplier = (actor.m.Level/11.0);			
 			}
 			

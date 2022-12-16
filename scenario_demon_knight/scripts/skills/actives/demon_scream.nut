@@ -17,7 +17,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		this.m.IsSerialized = true;	//skill to save				
 
 		this.m.ActionPointCost = 1;
-		this.m.FatigueCost = 6;
+		this.m.FatigueCost = 10;
 		this.m.MinRange = 0;
 		this.m.MaxRange = 0;		
 		
@@ -70,6 +70,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 	*/
 	function onCombatStarted()
 	{
+		this.skill.onCombatStarted();
 		updateSkillPowerByLever();
 	}		
 	
@@ -85,7 +86,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 			this.m.morale_checks_malus = 35;
 
 			local multiplier = 1.0; 
-			if(actor.m.Level<12){
+			if(actor.m.Level<11){
 				multiplier = (actor.m.Level/11.0);			
 			}
 			

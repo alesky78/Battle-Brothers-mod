@@ -78,7 +78,8 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 	*/	
 	function onCombatStarted()
 	{
-		updateSkillPowerByLever();
+		this.skill.onCombatStarted();
+		updateSkillPowerByLever();		
 	}		
 	
 	function onAdded()
@@ -93,7 +94,7 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 			this.m.HitChanceBonus_by_level = 40;
 
 			local multiplier = 1.0; 
-			if(actor.m.Level<12){
+			if(actor.m.Level<11){
 				multiplier = (actor.m.Level/11.0);			
 			}
 			
@@ -119,19 +120,7 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 			_properties.DamageArmorMult = 0;
 		}
 	}
-
-	function onUse( _user, _targetTile )
-	{
-		local tag = {
-			User = _user,
-			TargetTile = _targetTile
-		};
-		this.Time.scheduleEvent(this.TimeUnit.Virtual, 500, this.onDelayedEffect.bindenv(this), tag);
-		return true;
-	}	
-
-
-
+	
 	function onTargetSelected( _targetTile )
 	{
 		this.Tactical.getHighlighter().addOverlayIcon(this.Const.Tactical.Settings.AreaOfEffectIcon, _targetTile, _targetTile.Pos.X, _targetTile.Pos.Y);
@@ -147,7 +136,17 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 				this.Tactical.getHighlighter().addOverlayIcon(this.Const.Tactical.Settings.AreaOfEffectIcon, forwardTile, forwardTile.Pos.X, forwardTile.Pos.Y);
 			}
 		}
-	}
+	}	
+
+	function onUse( _user, _targetTile )
+	{
+		local tag = {
+			User = _user,
+			TargetTile = _targetTile
+		};
+		this.Time.scheduleEvent(this.TimeUnit.Virtual, 500, this.onDelayedEffect.bindenv(this), tag);
+		return true;
+	}	
 
 	function onDelayedEffect( _tag )
 	{

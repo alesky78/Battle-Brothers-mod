@@ -150,8 +150,6 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			multiplier = (actor.m.Level/11.0);			
 		}
 
-		
-						
 		// change the bonus based on the days wihtout any kil
 		this.m.attribute_Initiative		=  this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill);
 		this.m.attribute_Bravery 		=  this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill);
@@ -175,11 +173,16 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		_properties.RerollDefenseChance += 10;		
 		_properties.FatalityChanceMult = 1000.0;		
 		
+		_properties.IsAffectedByNight = false;		
 		_properties.IsAffectedByLosingHitpoints = false;
-		_properties.IsAffectedByFreshInjuries = false;		
+		_properties.IsAffectedByFreshInjuries = false;
+		_properties.IsAffectedByDyingAllies = false;
 		
 		_properties.DailyWageMult *= 0.0;
 		_properties.DailyFood = 0;
+		
+		_properties.IsImmuneToFire = true;
+		_properties.IsImmuneToRoot = true;		
 		
 	}
 		

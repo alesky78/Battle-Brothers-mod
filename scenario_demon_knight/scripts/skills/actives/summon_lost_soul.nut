@@ -70,20 +70,37 @@ this.summon_lost_soul <- this.inherit("scripts/skills/skill", {
     }
 	
 	
-
+    function onCombatStarted()
+	{
+		this.skill.onCombatStarted();	
+		this.m.Cooldown = 0;
+		updateSkillPowerByLever();		
+	}
+	
+	function onAdded()
+	{
+		updateSkillPowerByLever();
+	}		
+	
+	function updateSkillPowerByLever(){
+		local actor = this.getContainer().getActor();
+		
+		//best value
+		this.m.CooldownMax = 3;		
+		
+		if(actor.m.Level<11){
+			this.m.CooldownMax = this.m.CooldownMax + (11-actor.m.Level);
+		}
+	
+	}	
+	
     function isUsable() {
         return this.m.Cooldown == 0 && this.skill.isUsable();
     }
 
     function onTurnStart() {
         this.m.Cooldown = this.Math.max(0, this.m.Cooldown - 1);
-    }
-
-    function onCombatStarted()
-	{
-		this.m.Cooldown = 0;
-		this.skill.onCombatStarted();
-	}
+    }	
 
 	function onCombatFinished()
 	{
@@ -100,15 +117,13 @@ this.summon_lost_soul <- this.inherit("scripts/skills/skill", {
         local s = [
             "scripts/entity/tactical/enemies/zombie_knight"	   
         ];
+		
+		
         local script = s[this.Math.rand(0, s.len() - 1)];
         local entity = this.Tactical.spawnEntity(script, _targetTile.Coords.X, _targetTile.Coords.Y);
         entity.setFaction(this.Const.Faction.PlayerAnimals);
         entity.riseFromGround(0.75);
         entity.assignRandomEquipment();
-		
-		if (entity.hasSprite("head")){
-				entity.getSprite("head").Color = this.createColor("#860111")
-		}		
 		
         this.m.Cooldown = this.m.CooldownMax;
         return true;
