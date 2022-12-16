@@ -134,7 +134,7 @@ this.demon_knight_background <- this.inherit("scripts/skills/backgrounds/charact
 				0
 			],
 			MeleeDefense = [
-				8,
+				5,
 				10
 			],
 			RangedDefense = [

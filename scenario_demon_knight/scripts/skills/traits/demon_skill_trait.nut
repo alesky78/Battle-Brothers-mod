@@ -21,7 +21,7 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		dynamicTooltip.push({
 			id = 1,
 			type = "text",
-			text = "The skills become more powerful increasing level\n"
+			text = "The skills become more powerful increasing level, till 11\n"
 		})				
 				
         // 3
@@ -47,7 +47,7 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 				text = "[color=#525252][u]level 3:[/u]\n unlock the skill 'Demon Scream'.[/color]\n"
 			})
         }
-
+		
         // 6
         if(level >= 6) 
         {
@@ -60,7 +60,7 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 				id = 6,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Demon Strength[/color]'.\n"
+				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Fire from hell[/color]'.\n"
 			})
         } 
         else 
@@ -68,7 +68,55 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
             dynamicTooltip.push({
 				id = 6,
 				type = "text",
-				text = "[color=#525252][u]level 6:[/u]\n unlock the skill 'Demon Strength'.[/color]\n"
+				text = "[color=#525252][u]level 6:[/u]\n unlock the skill 'Fire from hell'.[/color]\n"
+			})
+        }			
+		
+        // 9
+        if(level >= 9) 
+        {
+            dynamicTooltip.push({
+				id = 9,
+				type = "text",
+				text = "[u]level 9:[/u]\n"
+			})
+            dynamicTooltip.push({
+				id = 9,
+				type = "text",
+				icon = "ui/icons/special.png",
+				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Summon lost soul[/color]'.\n"
+			})
+        } 
+        else 
+        {
+            dynamicTooltip.push({
+				id = 9,
+				type = "text",
+				text = "[color=#525252][u]level 9:[/u]\n unlock the skill 'Summon lost soul'.[/color]\n"
+			})
+        }		
+
+        // 1
+        if(level >= 11) 
+        {
+            dynamicTooltip.push({
+				id = 11,
+				type = "text",
+				text = "[u]level 11:[/u]\n"
+			})
+            dynamicTooltip.push({
+				id = 11,
+				type = "text",
+				icon = "ui/icons/special.png",
+				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Demon Strength[/color]'.\n"
+			})
+        } 
+        else 
+        {
+            dynamicTooltip.push({
+				id = 11,
+				type = "text",
+				text = "[color=#525252][u]level 11:[/u]\n unlock the skill 'Demon Strength'.[/color]\n"
 			})
         }		
 		
@@ -94,7 +142,17 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 			//this.logInfo("demon_skill_trait add demon_scream");			
         }
 		
-        if (level >= 6 && !skills.hasSkill("actives.demon_strength")) {
+        if (level >= 6 && !skills.hasSkill("actives.fire_from_hell")) {
+            skills.add(this.new("scripts/skills/actives/fire_from_hell_skill"));
+			//this.logInfo("demon_skill_trait add fire_from_hell_skill");			
+        }		
+		
+        if (level >= 9 && !skills.hasSkill("actives.summon_lost_soul")) {
+            skills.add(this.new("scripts/skills/actives/summon_lost_soul"));
+			//this.logInfo("demon_skill_trait add summon_lost_soul");			
+        }		
+		
+        if (level >= 11 && !skills.hasSkill("actives.demon_strength")) {
             skills.add(this.new("scripts/skills/actives/demon_strength"));
 			//this.logInfo("demon_skill_trait add demon_strength");	
         }

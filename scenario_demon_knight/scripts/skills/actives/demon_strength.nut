@@ -21,7 +21,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 		this.m.IsSerialized = true;	//skill to save		
 
 		this.m.ActionPointCost = 0;
-		this.m.FatigueCost = 0;
+		this.m.FatigueCost = 10;
 		this.m.MinRange = 0;
 		this.m.MaxRange = 0;		
 		
@@ -97,7 +97,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 				multiplier = (actor.m.Level/11.0);			
 			}
 			
-			this.logDebug("demon_strength: multiplier value "+multiplier);
+			//this.logDebug("demon_strength: multiplier value "+multiplier);
 			
 			this.m.action_points_per_turn = this.Math.abs(this.Math.max(1,this.m.action_points_per_turn*multiplier));
 			this.m.action_points_per_kill = this.Math.abs(this.Math.max(1,this.m.action_points_per_kill*multiplier));

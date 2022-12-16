@@ -17,7 +17,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		this.m.IsSerialized = true;	//skill to save				
 
 		this.m.ActionPointCost = 1;
-		this.m.FatigueCost = 0;
+		this.m.FatigueCost = 6;
 		this.m.MinRange = 0;
 		this.m.MaxRange = 0;		
 		
@@ -89,7 +89,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 				multiplier = (actor.m.Level/11.0);			
 			}
 			
-			this.logDebug("demon_scream: multiplier value "+multiplier);
+			//this.logDebug("demon_scream: multiplier value "+multiplier);
 			
 			this.m.morale_checks_malus = this.Math.abs(this.m.morale_checks_malus*multiplier);			
 	}
