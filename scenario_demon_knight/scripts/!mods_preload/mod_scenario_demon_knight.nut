@@ -3,10 +3,9 @@
 {	
 
 	/**
-	* script that permit to enable the development mode
-	* defined in the table m.developer_mode = true;	
+	* script that permit to enable functionality for the development mode	
 	*	
-	* factions/faction_action/build_demon_slayer_camp_action	--> show immediatelly the demon slayer settlements in the word map
+	* 1 - show immediatelly the demon slayer settlements in the word map --> factions/faction_action/build_demon_slayer_camp_action set m.developer_mode = true; 
 	*/		
 
 
@@ -29,10 +28,10 @@
 	/**
 	* there are same events that become incompatible with this scneario then create a function to support the delete
 	* function deleteEventByID(ID);
-	*/
+	*/	
 	::mods_hookNewObject("events/event_manager", function(o){ 
 	  		
-		o.deleteEventByID <- function(ID)
+		o.disableEventByID <- function(ID)
 		{
 			local index = null;
 			local event = null;
@@ -45,18 +44,19 @@
 			
 			if(index!=null){
 				this.m.Events.remove(index)
-				//this.logDebug("hook: events/event_manager event delete: "+ID);
+				this.logDebug("hook: events/event_manager event delete: " +ID);							
 			}
 		}
     });
 	
+	
 	/**
 	* there are same ambitions that become incompatible with this scneario then create a function to support the delete 
 	* function deleteEventByID(ID);
-	*/
+	*/	
 	::mods_hookNewObject("ambitions/ambition_manager", function(o){ 
 	  		
-		o.deleteAmbitionByID <- function(ID)
+		o.disableAmbitionByID <- function(ID)
 		{
 			local index = null;
 			local ambition = null;
@@ -69,18 +69,16 @@
 			
 			if(index!=null){
 				this.m.Ambitions.remove(index)
-				//this.logDebug("hook: ambitions/ambition_manager ambition delete: "+ID);
+				this.logDebug("hook: ambitions/ambition_manager ambition delete: "+ID);
 			}
 		}
     });	
-	
-	
-		
+			
 	
 	/**
 	* the faction_manager must be modified in the way to 
-	* 1 - create the new faction 
-	* 2 - update the new faction
+	* 1 - create the new faction demon slayer
+	* 2 - update the new faction demon slayer
 	*/
 	::mods_hookNewObjectOnce("factions/faction_manager", function (o)
 	{

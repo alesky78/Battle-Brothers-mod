@@ -18,7 +18,7 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		this.m.Name = "Indemonised";
 		this.m.Icon = "ui/traits/trait_icon_indemonised.png";
 		this.m.Description = "Horribly inhuman, feels no fear, he desires only death and destruction of his enemies.";
-		this.m.Order = this.Const.SkillOrder.Trait - 1;
+		this.m.Order = this.Const.SkillOrder.Trait - 2;
 		this.m.Titles = [];
 		this.m.Excluded = [
 			"trait.disloyal"
@@ -126,16 +126,10 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 				id = 20,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Can use demoniac skills in battle, these abilities become more powerful increasing level"
-			},
-			{
-				id = 21,
-				type = "text",
-				icon = "ui/icons/special.png",
 				text = "Don't eat more food, but the demon need to kill to survive or the attributes decreases. [color=" + this.Const.UI.Color.NegativeValue + "]" +this.m.days_Passed_no_kill+ "[/color] days wihtout a kill"
 			},
 {
-				id = 22,
+				id = 21,
 				type = "text",
 				icon = "ui/icons/special.png",
 				text = "Attributes become more powerful increasing level"

@@ -63,12 +63,26 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		return ret;
 	}
 	
+	/**
+	* the skill are added during the CombatStarted by the demon_skill_trait
+	* then this method will be not called for this skill if the combat si already started
+	* then recall also for onAdded
+	*/
 	function onCombatStarted()
 	{
-			local actor = this.getContainer().getActor();
+		updateSkillPowerByLever();
+	}		
+	
+	function onAdded()
+	{
+		updateSkillPowerByLever();
+	}	
+	
+	function updateSkillPowerByLever(){
+		local actor = this.getContainer().getActor();
 	
 			//max values
-			this.m.morale_checks_malus = 50;
+			this.m.morale_checks_malus = 35;
 
 			local multiplier = 1.0; 
 			if(actor.m.Level<12){
@@ -77,10 +91,8 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 			
 			this.logDebug("demon_scream: multiplier value "+multiplier);
 			
-			this.m.morale_checks_malus = this.Math.abs(this.m.morale_checks_malus*multiplier);		
-
-			
-	}		
+			this.m.morale_checks_malus = this.Math.abs(this.m.morale_checks_malus*multiplier);			
+	}
 
 	
 	//usable if at least one enemy around you

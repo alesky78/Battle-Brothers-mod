@@ -30,11 +30,9 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		
 		bro.setTitle("The Demon knight");
 				
-		//trait
 		bro.getSkills().add(this.new("scripts/skills/traits/player_character_trait"));
-		bro.getSkills().add(this.new("scripts/skills/traits/iron_lungs_trait"));
-		//bro.getSkills().add(this.new("scripts/skills/traits/indemonised_trait"));		this trait is obtained by the starting event, see event.demon_knight_scenario_intro
-			
+		bro.getSkills().add(this.new("scripts/skills/traits/iron_lungs_trait"));				
+							
 		//generic data
 		bro.setPlaceInFormation(4);
 		bro.getFlags().set("IsPlayerCharacter", true);
@@ -65,11 +63,6 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		skills.add(this.new("scripts/skills/perks/perk_mastery_sword"));
 		skills.add(this.new("scripts/skills/perks/perk_mastery_hammer"));		
 		skills.add(this.new("scripts/skills/perks/perk_fearsome"));
-		
-		//add demoniac skills 
-		skills.add(this.new("scripts/skills/actives/demon_scream"));
-		skills.add(this.new("scripts/skills/actives/demon_strength"));		
-		
 		skills.update();				
 
 		//starting items
@@ -192,7 +185,7 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		while (1);
 
 		this.World.State.m.Player = this.World.spawnEntity("scripts/entity/world/player_party", randomVillageTile.Coords.X, randomVillageTile.Coords.Y);
-		this.World.Assets.updateLook(6); 	 //sellman look
+		this.World.Assets.updateLook(6); 	 //sellman look in the world map
 		
 		this.World.getCamera().setPos(this.World.State.m.Player.getPos());
 		this.Time.scheduleEvent(this.TimeUnit.Real, 1000, function ( _tag )
@@ -208,23 +201,25 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		this.World.Assets.m.BrothersMax = 1;
 		
 		//clean the incompatibel events: by indemonised_trait avatar don't eat more but need to kill enemy to restore
-		this.World.Events.deleteEventByID("event.good_food_variety");
-		this.World.Events.deleteEventByID("event.no_food_variety");			
-		this.World.Events.deleteEventByID("event.no_food");					
-		this.World.Events.deleteEventByID("event.hunt_food");
-		this.World.Events.deleteEventByID("event.food_goes_bad");		
-		
+		this.World.Events.disableEventByID("event.good_food_variety");
+		this.World.Events.disableEventByID("event.no_food_variety");
+		this.World.Events.disableEventByID("event.no_food");
+		this.World.Events.disableEventByID("event.hunt_food");
+		this.World.Events.disableEventByID("event.food_goes_bad");
+	
 		//clean the incompatibel ambitions: this is a lone scenario
-		this.World.Ambitions.deleteAmbitionByID("ambition.hammer_mastery");	//i have this mastery by default
-		this.World.Ambitions.deleteAmbitionByID("ambition.have_all_provisions");		
-		this.World.Ambitions.deleteAmbitionByID("ambition.have_talent");		
-		this.World.Ambitions.deleteAmbitionByID("ambition.hire_follower");		
-		this.World.Ambitions.deleteAmbitionByID("ambition.ranged_mastery");
-		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_12");	
-		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_16");
-		this.World.Ambitions.deleteAmbitionByID("ambition.roster_of_20");
-		this.World.Ambitions.deleteAmbitionByID("ambition.sergeant");
-		this.World.Ambitions.deleteAmbitionByID("ambition.weapon_mastery");
+		this.World.Ambitions.disableAmbitionByID("ambition.hammer_mastery");
+		this.World.Ambitions.disableAmbitionByID("ambition.weapon_mastery");
+		this.World.Ambitions.disableAmbitionByID("ambition.ranged_mastery");
+		this.World.Ambitions.disableAmbitionByID("ambition.have_all_provisions");
+		this.World.Ambitions.disableAmbitionByID("ambition.have_talent");
+		this.World.Ambitions.disableAmbitionByID("ambition.hire_follower");
+		this.World.Ambitions.disableAmbitionByID("ambition.roster_of_12");
+		this.World.Ambitions.disableAmbitionByID("ambition.roster_of_16");
+		this.World.Ambitions.disableAmbitionByID("ambition.roster_of_20");
+		//don't remove this are requeste for several purposes in the code or you have to change several functions
+		//this.World.Ambitions.disableAmbitionByID("ambition.sergeant");
+		//this.World.Ambitions.disableAmbitionByID("ambition.battle_standard");	//this is mandatory to create other ambitions like noble
 	
 	}
 

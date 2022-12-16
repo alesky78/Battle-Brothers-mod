@@ -25,16 +25,24 @@ this.demon_knight_intro_event <- this.inherit("scripts/events/event", {
 			],
 			function start( _event )
 			{
-				local skill = this.new("scripts/skills/traits/indemonised_trait");
-				_event.m.indemonised.getSkills().add(skill);				
+				local indemonised_trait = this.new("scripts/skills/traits/indemonised_trait");
+				local demon_skill_trait = this.new("scripts/skills/traits/demon_skill_trait");				
+				_event.m.indemonised.getSkills().add(indemonised_trait);	
+				_event.m.indemonised.getSkills().add(demon_skill_trait);					
 			
 				this.Banner = "ui/banners/" + this.World.Assets.getBanner() + "s.png";
 				this.Characters.push(_event.m.indemonised.getImagePath());
 				this.List.push({
 					id = 16,
-					icon = "ui/traits/trait_icon_indemonised.png",
-					text = _event.m.indemonised.getNameOnly() + " gains " + skill.getName() + " trait"
-				});				
+					icon = indemonised_trait.m.Icon,
+					text = _event.m.indemonised.getNameOnly() + " gains " + indemonised_trait.getName() + " trait"
+				});	
+				this.List.push({
+					id = 17,
+					icon = demon_skill_trait.m.Icon,
+					text = _event.m.indemonised.getNameOnly() + " gains " + demon_skill_trait.getName() + " trait"
+				});					
+				
 			}
 
 		});

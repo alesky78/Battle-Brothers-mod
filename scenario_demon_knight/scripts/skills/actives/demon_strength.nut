@@ -60,19 +60,36 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Become bleeding but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn, killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point, [color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
+				text = "Become [color=" + this.Const.UI.Color.NegativeValue + "]bleeding[/color] but obtain extra power from the demon, valid till you are bleeding: adrenaline rush, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.action_points_per_turn+ "[/color] action points per turn, [color=" + this.Const.UI.Color.PositiveValue + "]+" + this.m.fatigue_recovery_per_turn+ "[/color] Fatigue Recovery per turn, killing an enemy immediately regains [color=" + this.Const.UI.Color.PositiveValue + "]" + this.m.action_points_per_kill+ "[/color] Action Point, [color=" + this.Const.UI.Color.PositiveValue + "]+25%[/color] Melee Damage"
 			}
 		];
 		return ret;
 	}	
 	
+	
+	
+	/**
+	* the skill are added during the CombatStarted by the demon_skill_trait
+	* then this method will be not called for this skill if the combat si already started
+	* then recall also for onAdded
+	*/
 	function onCombatStarted()
+	{
+		updateSkillPowerByLever();
+	}		
+	
+	function onAdded()
+	{
+		updateSkillPowerByLever();
+	}
+
+	function updateSkillPowerByLever()
 	{
 			local actor = this.getContainer().getActor();
 	
 			//max values
 			this.m.action_points_per_turn = 3;
-			this.m.action_points_per_kill = 2;
+			this.m.action_points_per_kill = 1;
 			this.m.fatigue_recovery_per_turn = 6;
 			
 			local multiplier = 1.0; 
@@ -84,8 +101,7 @@ this.demon_strength <- this.inherit("scripts/skills/skill", {
 			
 			this.m.action_points_per_turn = this.Math.abs(this.Math.max(1,this.m.action_points_per_turn*multiplier));
 			this.m.action_points_per_kill = this.Math.abs(this.Math.max(1,this.m.action_points_per_kill*multiplier));
-			this.m.fatigue_recovery_per_turn = this.Math.abs(this.Math.max(1,this.m.fatigue_recovery_per_turn*multiplier));
-			
+			this.m.fatigue_recovery_per_turn = this.Math.abs(this.Math.max(1,this.m.fatigue_recovery_per_turn*multiplier));			
 	}	
 
 	function isUsable()
