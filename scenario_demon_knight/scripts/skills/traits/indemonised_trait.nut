@@ -132,7 +132,7 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 				id = 21,
 				type = "text",
 				icon = "ui/icons/special.png",
-				text = "Attributes become more powerful increasing level"
+				text = "Attributes become more powerful increasing level, till 11"
 			}
 			
 		];
@@ -148,16 +148,18 @@ this.indemonised_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		local actor = this.getContainer().getActor();
 		if(actor.m.Level<12){
 			multiplier = (actor.m.Level/11.0);			
-		}			
+		}
+
+		
 						
 		// change the bonus based on the days wihtout any kil
-		this.m.attribute_Initiative		=  this.Math.abs(33*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(33*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_Bravery 		=  this.Math.abs(33*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(33*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_MeleeSkill		=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_MeleeDefense	=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_RangedDefense	=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_Stamina		=  this.Math.abs(66*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(66*multiplier) - this.m.days_Passed_no_kill;
-		this.m.attribute_Hitpoints		=  this.Math.abs(66*multiplier) - this.m.days_Passed_no_kill <0 ? 0 : this.Math.abs(66*multiplier) - this.m.days_Passed_no_kill;
+		this.m.attribute_Initiative		=  this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill);
+		this.m.attribute_Bravery 		=  this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(33*multiplier) - (3*this.m.days_Passed_no_kill);
+		this.m.attribute_MeleeSkill		=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill     <0 ? 0 : this.Math.abs(11*multiplier) -    this.m.days_Passed_no_kill;
+		this.m.attribute_MeleeDefense	=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill     <0 ? 0 : this.Math.abs(11*multiplier) -    this.m.days_Passed_no_kill;
+		this.m.attribute_RangedDefense	=  this.Math.abs(11*multiplier) - this.m.days_Passed_no_kill     <0 ? 0 : this.Math.abs(11*multiplier) -    this.m.days_Passed_no_kill;
+		this.m.attribute_Stamina		=  this.Math.abs(66*multiplier) - (6*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(66*multiplier) - (6*this.m.days_Passed_no_kill);
+		this.m.attribute_Hitpoints		=  this.Math.abs(66*multiplier) - (6*this.m.days_Passed_no_kill) <0 ? 0 : this.Math.abs(66*multiplier) - (6*this.m.days_Passed_no_kill);
 						
 		_properties.Initiative += this.m.attribute_Initiative;
 		_properties.Bravery += this.m.attribute_Bravery;
