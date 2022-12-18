@@ -74,9 +74,12 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		items.unequip(items.getItemAtSlot(this.Const.ItemSlot.Offhand));
 		
 		//weapon and armour 
-		items.equip(this.new("scripts/items/armor/sellsword_armor"));
-		items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));	
-		items.equip(this.new("scripts/items/weapons/longsword"));
+		//items.equip(this.new("scripts/items/armor/sellsword_armor"));
+		items.equip(this.new("scripts/items/armor/demon_knight_armor"));		
+		//items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));	
+		items.equip(this.new("scripts/items/helmets/demon_knight_helmet"));			
+		//items.equip(this.new("scripts/items/weapons/longsword"));
+		items.equip(this.new("scripts/items/weapons/demon_knight_greatsword"));		
 		
 		//reputation
 		this.World.Assets.m.BusinessReputation = 200;
