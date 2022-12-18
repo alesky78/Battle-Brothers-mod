@@ -83,7 +83,7 @@ this.demon_scream <- this.inherit("scripts/skills/skill", {
 		local actor = this.getContainer().getActor();
 	
 			//max values
-			this.m.morale_checks_malus = 35;
+			this.m.morale_checks_malus = 30;
 
 			local multiplier = 1.0; 
 			if(actor.m.Level<11){

@@ -44,7 +44,7 @@ this.fire_from_hell_skill <- this.inherit("scripts/skills/skill", {
 		this.m.InjuriesOnBody = this.Const.Injury.BurningBody;
 		this.m.InjuriesOnHead = this.Const.Injury.BurningHead;
 		this.m.HitChanceBonus = 0;	// set by updateSkillPowerByLever()
-		this.m.DirectDamageMult = 0.75;	//75% ingore armour
+		this.m.DirectDamageMult = 0.70;	//70% ingore armour
 		
 		//this.m.ChanceDecapitate = 10;
 		//this.m.ChanceDisembowel = 30;

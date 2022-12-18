@@ -75,10 +75,12 @@ this.demon_knight_scenario <- this.inherit("scripts/scenarios/world/starting_sce
 		
 		//weapon and armour 
 		//items.equip(this.new("scripts/items/armor/sellsword_armor"));
-		items.equip(this.new("scripts/items/armor/demon_knight_armor"));		
 		//items.equip(this.new("scripts/items/helmets/bascinet_with_mail"));	
-		items.equip(this.new("scripts/items/helmets/demon_knight_helmet"));			
 		//items.equip(this.new("scripts/items/weapons/longsword"));
+
+		//weapon and armour demon_knight decide how to obtain in the game
+		items.equip(this.new("scripts/items/armor/demon_knight_armor"));
+		items.equip(this.new("scripts/items/helmets/demon_knight_helmet"));
 		items.equip(this.new("scripts/items/weapons/demon_knight_greatsword"));		
 		
 		//reputation

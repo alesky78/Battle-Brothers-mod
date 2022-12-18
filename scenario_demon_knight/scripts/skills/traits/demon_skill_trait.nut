@@ -25,15 +25,15 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		})				
 				
         // 3
-        if(level >= 3) 
+        if(level >= 5) 
         {
             dynamicTooltip.push({
-				id = 3,
+				id = 5,
 				type = "text",
-				text = "[u]level 3:[/u]\n"
+				text = "[u]level 5:[/u]\n"
 			})
             dynamicTooltip.push({
-				id = 3,
+				id = 5,
 				type = "text",
 				icon = "ui/icons/special.png",
 				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Demon Scream[/color]'.\n"
@@ -42,22 +42,22 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
         else 
         {
             dynamicTooltip.push({
-				id = 3,
+				id = 5,
 				type = "text",
-				text = "[color=#525252][u]level 3:[/u]\n unlock the skill 'Demon Scream'.[/color]\n"
+				text = "[color=#525252][u]level 5:[/u]\n unlock the skill 'Demon Scream'.[/color]\n"
 			})
         }
 		
-        // 6
-        if(level >= 6) 
+        // 7
+        if(level >= 7) 
         {
             dynamicTooltip.push({
-				id = 6,
+				id = 7,
 				type = "text",
 				text = "[u]level 6:[/u]\n"
 			})
             dynamicTooltip.push({
-				id = 6,
+				id = 7,
 				type = "text",
 				icon = "ui/icons/special.png",
 				text = "unlocked the skill '[color=" + this.Const.UI.Color.PositiveValue + "]Fire from hell[/color]'.\n"
@@ -66,9 +66,9 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
         else 
         {
             dynamicTooltip.push({
-				id = 6,
+				id = 7,
 				type = "text",
-				text = "[color=#525252][u]level 6:[/u]\n unlock the skill 'Fire from hell'.[/color]\n"
+				text = "[color=#525252][u]level 7:[/u]\n unlock the skill 'Fire from hell'.[/color]\n"
 			})
         }			
 		
@@ -137,12 +137,12 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
         local level = actor.getLevel();
 		local skills = actor.getSkills();
 		
-        if (level >= 3 && !skills.hasSkill("actives.demon_scream")) {
+        if (level >= 5 && !skills.hasSkill("actives.demon_scream")) {
             skills.add(this.new("scripts/skills/actives/demon_scream"));
 			//this.logInfo("demon_skill_trait add demon_scream");			
         }
 		
-        if (level >= 6 && !skills.hasSkill("actives.fire_from_hell")) {
+        if (level >= 7 && !skills.hasSkill("actives.fire_from_hell")) {
             skills.add(this.new("scripts/skills/actives/fire_from_hell_skill"));
 			//this.logInfo("demon_skill_trait add fire_from_hell_skill");			
         }		
@@ -164,6 +164,8 @@ this.demon_skill_trait <- this.inherit("scripts/skills/traits/character_trait", 
 		local skills = actor.getSkills();
 		
 		skills.removeByID("actives.demon_scream");
+		skills.removeByID("actives.fire_from_hell");
+		skills.removeByID("actives.summon_lost_soul");
 		skills.removeByID("actives.demon_strength");
 	}
 	
